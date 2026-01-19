@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 20022: El Lenguaje Universal de Pagos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .card-gradient { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col">
+
+    <div id="app" class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-slate-800 mb-2">Misión: ISO 20022</h1>
+            <p class="text-slate-600">Domina el estándar que está transformando el sistema financiero global</p>
+        </header>
+
+        <!-- Contenedor de Secciones -->
+        <div id="game-content">
+            <!-- Menu Principal -->
+            <div id="main-menu" class="section fade-in">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+                    <button onclick="showSection('study-section')" class="p-8 card-gradient text-white rounded-2xl shadow-xl hover:scale-105 transition-transform text-left">
+                        <div class="text-3xl mb-4">📖</div>
+                        <h2 class="text-2xl font-bold mb-2">Centro de Estudio</h2>
+                        <p class="opacity-90">Repasa los conceptos clave: XML, interoperabilidad y datos enriquecidos.</p>
+                    </button>
+                    <button onclick="startQuiz()" class="p-8 bg-white border-2 border-blue-600 text-blue-600 rounded-2xl shadow-xl hover:scale-105 transition-transform text-left">
+                        <div class="text-3xl mb-4">🎮</div>
+                        <h2 class="text-2xl font-bold mb-2">Desafío de 10 Preguntas</h2>
+                        <p class="text-slate-600">Pon a prueba tu nivel avanzado sobre el estándar mundial de mensajería.</p>
+                    </button>
+                </div>
+                
+                <!-- Anagrama Medios de Pago Internacional -->
+                <div class="flex justify-center items-center py-8 border-t border-slate-200">
+                    <img 
+                        src="anagrama_mpi.png" 
+                        alt="Anagrama Medios de Pago Internacional" 
+                        class="max-h-24 h-auto opacity-90 hover:opacity-100 transition-opacity"
+                        onerror="this.parentElement.innerHTML='<div class=\'text-slate-400 font-bold tracking-widest text-lg border-2 border-dashed border-slate-300 p-6 rounded-lg\'>ANAGRAMA MEDIOS DE PAGO INTERNACIONAL</div>'"
+                    >
+                </div>
+            </div>
+
+            <!-- Seccion de Estudio -->
+            <div id="study-section" class="section hidden fade-in bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
+                <button onclick="showSection('main-menu')" class="text-blue-600 mb-6 font-semibold flex items-center hover:underline transition-all">
+                    ← Volver al menú
+                </button>
+                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b pb-4">Conceptos Clave</h2>
+                
+                <!-- ÁREA DE LA IMAGEN LOCAL -->
+                <div class="mb-8 w-full overflow-hidden rounded-xl shadow-sm border border-slate-200 bg-white">
+                    <img 
+                        src="esquema_iso.jpg" 
+                        alt="Esquema del futuro de los pagos con ISO 20022" 
+                        class="w-full h-auto object-contain block mx-auto"
+                        onerror="this.parentElement.innerHTML='<div class=\'p-10 bg-slate-100 text-slate-400 text-center\'><p>⚠️ No se encontró el archivo <b>esquema_iso.jpg</b></p></div>'"
+                    >
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
+                        <h3 class="font-bold text-blue-800 text-lg">¿Qué es ISO 20022?</h3>
+                        <p class="text-slate-700">Un estándar global basado en XML para mensajes financieros, legible por máquinas y humanos.</p>
+                    </div>
+                    <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
+                        <h3 class="font-bold text-green-800 text-lg">Interoperabilidad</h3>
+                        <p class="text-slate-700">Permite que diferentes sistemas (alto valor, bajo valor, pagos inmediatos) hablen el mismo idioma.</p>
+                    </div>
+                    <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
+                        <h3 class="font-bold text-purple-800 text-lg">Datos Enriquecidos</h3>
+                        <p class="text-slate-700">Capacidad de llevar información detallada como nombres completos de beneficiarios y motivos de pago.</p>
+                    </div>
+                    <div class="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-400">
+                        <h3 class="font-bold text-orange-800 text-lg">STP (Procesamiento Directo)</h3>
+                        <p class="text-slate-700">Al no haber pérdida de datos, las máquinas pueden procesar pagos sin intervención humana manual.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seccion de Quiz -->
+            <div id="quiz-section" class="section hidden fade-in">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
+                    <div class="flex justify-between items-center mb-6">
+                        <button onclick="confirmExit()" class="text-slate-400 hover:text-red-500 flex items-center text-sm font-semibold transition-colors">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            Abandonar Test
+                        </button>
+                        <span id="question-counter" class="text-slate-500 font-medium text-sm md:text-base">Pregunta 1 de 10</span>
+                    </div>
+
+                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-8">
+                        <div id="progress-bar" class="bg-blue-600 h-full transition-all" style="width: 10%"></div>
+                    </div>
+
+                    <div id="question-container">
+                        <h2 id="question-text" class="text-xl md:text-2xl font-bold text-slate-800 mb-8 leading-tight">Cargando pregunta...</h2>
+                        <div id="options-container" class="grid grid-cols-1 gap-3">
+                            <!-- Opciones dinámicas -->
+                        </div>
+                    </div>
+
+                    <div id="feedback-container" class="hidden mt-8 p-4 rounded-lg text-center font-bold"></div>
+                    
+                    <button id="next-btn" onclick="nextQuestion()" class="hidden mt-8 w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg">
+                        Siguiente Pregunta
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resultados -->
+            <div id="results-section" class="section hidden fade-in text-center bg-white p-12 rounded-2xl shadow-lg">
+                <div id="result-emoji" class="text-6xl mb-6">🏆</div>
+                <h2 class="text-3xl font-bold text-slate-800 mb-2">¡Misión Completada!</h2>
+                <p id="final-score" class="text-xl text-slate-600 mb-8 font-medium whitespace-pre-line"></p>
+                <button onclick="location.reload()" class="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all">
+                    Volver al Inicio
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pie de página unificado -->
+    <footer class="w-full py-6 mt-auto border-t border-slate-200 bg-slate-50">
+        <div class="text-center">
+            <a href="https://www.mediosdepagointernacional.es" target="_blank" class="text-slate-500 hover:text-blue-600 font-medium transition-colors text-sm md:text-base">
+                www.mediosdepagointernacional.es
+            </a>
+        </div>
+    </footer>
+
+    <!-- Modal de Confirmación para salir -->
+    <div id="exit-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl">
+            <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">¿Seguro que quieres salir?</h3>
+            <p class="text-slate-600 mb-8 text-center">Tu progreso en este test se perderá.</p>
+            <div class="grid grid-cols-2 gap-4">
+                <button onclick="closeModal()" class="py-3 px-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all">Cancelar</button>
+                <button onclick="showSection('main-menu'); closeModal()" class="py-3 px-4 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all">Sí, salir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "¿Cuál es la principal ventaja técnica del estándar ISO 20022 frente a los formatos MT tradicionales?",
+                options: ["Uso de sintaxis XML estructurada", "Reducción del tamaño de los archivos", "No requiere conexión a internet", "Es exclusivo para pagos de bajo valor"],
+                correct: 0,
+                hint: "Se basa en el Lenguaje de Marcado Extensible."
+            },
+            {
+                question: "¿Qué permite el 'Diccionario Común' de ISO 20022?",
+                options: ["Traducción automática a 50 idiomas", "Componentes de datos consistentes en todo el mundo", "Sustituir a los bancos por Fintechs", "Eliminar las comisiones bancarias"],
+                correct: 1,
+                hint: "Asegura que los términos signifiquen lo mismo globalmente."
+            },
+            {
+                question: "En pagos transfronterizos, ¿qué problema resuelve este estándar?",
+                options: ["La fluctuación de las criptomonedas", "La falta de cajeros automáticos", "El truncamiento o pérdida de información", "La necesidad de usar tarjetas físicas"],
+                correct: 2,
+                hint: "Evita que los datos se 'recorten' al pasar de un país a otro."
+            },
+            {
+                question: "¿Qué beneficio estratégico aporta a la prevención del crimen financiero (AML)?",
+                options: ["Identificación más precisa de las partes involucradas", "Permite pagos anónimos", "Elimina la necesidad de revisar transacciones", "Hace que los pagos sean indetectables"],
+                correct: 0,
+                hint: "Los datos estructurados facilitan saber quién envía y quién recibe."
+            },
+            {
+                question: "¿Por qué beneficia a la gestión de Tesorería Corporativa?",
+                options: ["Permite imprimir menos billetes", "Mejora la conciliación mediante datos de remesas integrados", "Reduce impuestos automáticamente", "Obliga a usar una sola moneda"],
+                correct: 1,
+                hint: "Ayuda a emparejar facturas con pagos recibidos."
+            },
+            {
+                question: "¿Qué significa que ISO 20022 permite el 'Procesamiento Directo' (STP)?",
+                options: ["Que el pago llega en menos de 1 segundo", "Que no requiere aprobación bancaria", "Que las máquinas procesan el pago sin intervención manual", "Que se entrega dinero en efectivo"],
+                correct: 2,
+                hint: "Menos errores manuales significa mayor automatización."
+            },
+            {
+                question: "¿Cuál es una ventaja de los 'Datos Enriquecidos' para el cumplimiento normativo?",
+                options: ["Sustituir los nombres por códigos secretos", "Reducción de 'falsos positivos' en el filtrado de sanciones", "Aumento de la burocracia", "Ocultar el origen de los fondos"],
+                correct: 1,
+                hint: "Más información clara significa menos errores al detectar sospechosos."
+            },
+            {
+                question: "¿Qué tecnología facilita que ISO 20022 sea interoperable?",
+                options: ["Mensajes de texto (SMS)", "Un modelo de datos común independiente de la red", "Satélites de baja órbita", "Cámaras de vigilancia"],
+                correct: 1,
+                hint: "El modelo es universal, sin importar qué red se use."
+            },
+            {
+                question: "¿Qué papel juega la Inteligencia Artificial con ISO 20022?",
+                options: ["La IA reemplaza a los bancos centrales", "Los datos estructurados facilitan que la IA analice tendencias", "La IA prohíbe los pagos internacionales", "No hay relación entre ambas"],
+                correct: 1,
+                hint: "Para que una IA aprenda, necesita datos bien organizados."
+            },
+            {
+                question: "¿Cómo afecta ISO 20022 a los pagos de 'bajo valor' (retail)?",
+                options: ["Los prohíbe para dar prioridad a los grandes", "Permite una mejor integración con pagos inmediatos", "Solo se aplica a transacciones millonarias", "Hace que sean más lentos que los cheques"],
+                correct: 1,
+                hint: "Unifica la experiencia de pagos pequeños y grandes."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+        let answered = false;
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(sec => sec.classList.add('hidden'));
+            const target = document.getElementById(sectionId);
+            if (target) target.classList.remove('hidden');
+        }
+
+        function confirmExit() {
+            document.getElementById('exit-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('exit-modal').classList.add('hidden');
+        }
+
+        function startQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            showSection('quiz-section');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            const q = quizData[currentQuestion];
+            document.getElementById('question-counter').innerText = `Pregunta ${currentQuestion + 1} de ${quizData.length}`;
+            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
+            document.getElementById('question-text').innerText = q.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "p-4 text-left border-2 border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-medium text-sm md:text-base";
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(index, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('next-btn').classList.add('hidden');
+            document.getElementById('feedback-container').classList.add('hidden');
+        }
+
+        function checkAnswer(index, btn) {
+            if (answered) return;
+            answered = true;
+            
+            const q = quizData[currentQuestion];
+            const feedback = document.getElementById('feedback-container');
+            feedback.classList.remove('hidden');
+            const allButtons = document.getElementById('options-container').children;
+
+            if (index === q.correct) {
+                score++;
+                btn.classList.add('bg-green-100', 'border-green-600', 'text-green-700');
+                feedback.innerText = "¡Correcto! Excelente comprensión.";
+                feedback.className = "mt-8 p-4 rounded-lg text-center font-bold bg-green-50 text-green-700";
+            } else {
+                btn.classList.add('bg-red-100', 'border-red-600', 'text-red-700');
+                if (allButtons[q.correct]) allButtons[q.correct].classList.add('bg-green-50', 'border-green-600');
+                feedback.innerText = `Incorrecto. Pista: ${q.hint}`;
+                feedback.className = "mt-8 p-4 rounded-lg text-center font-bold bg-red-50 text-red-700";
+            }
+            document.getElementById('next-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < quizData.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            showSection('results-section');
+            const percent = (score / quizData.length) * 100;
+            const scoreText = document.getElementById('final-score');
+            const emoji = document.getElementById('result-emoji');
+            
+            let msg = "";
+            if(percent === 100) { msg = "¡Nivel Experto!\nHas dominado por completo el estándar ISO 20022."; emoji.innerText = "🌟"; }
+            else if(percent >= 70) { msg = "¡Muy bien hecho!\nTienes una visión clara del futuro de los pagos."; emoji.innerText = "🥈"; }
+            else { msg = "Buen intento.\nTe recomiendo repasar el Centro de Estudio para afianzar conceptos."; emoji.innerText = "📚"; }
+            
+            if (scoreText) scoreText.innerText = `Aciertos: ${score} de ${quizData.length}\n\n${msg}`;
+        }
+    </script>
+</body>
+</html>
