@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LORBANK - Generador ISO 20022 v11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        
+        .section-card { @apply bg-white p-8 rounded-2xl shadow-sm border border-slate-200 mb-8 transition-all; }
+        .block-ord { border-top: 6px solid #1e40af; }
+        .block-ben { border-top: 6px solid #0369a1; }
+        .block-pago { border-top: 6px solid #0d9488; }
+
+        .input-group { @apply flex flex-col gap-1 mb-4; }
+        label { @apply text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1; }
+        input, select { 
+            @apply p-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-slate-50 text-sm font-medium; 
+        }
+        
+        .btn-action { @apply flex-1 font-black py-4 px-6 rounded-xl shadow-lg flex items-center justify-center gap-2 cursor-pointer transition-all text-sm uppercase text-white; }
+        .btn-print { @apply bg-blue-700 hover:bg-blue-800; }
+        .btn-xml { @apply bg-emerald-600 hover:bg-emerald-700; }
+
+        .section-header { @apply text-lg font-black mb-6 pb-2 border-b flex items-center gap-2 uppercase tracking-tight; }
+
+        /* ESTILOS PDF */
+        @media print {
+            @page { size: portrait; margin: 0.7cm; }
+            body { background: white !important; }
+            .no-print { display: none !important; }
+            #printSection { display: block !important; }
+            
+            .print-container { font-size: 8.5pt; color: black; line-height: 1.2; }
+            .p-header { border-bottom: 2.5pt solid #1e40af; padding-bottom: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: end; }
+            .p-main-title { background: #1e40af; color: white !important; text-align: center; padding: 6px; font-weight: 900; font-size: 12pt; margin-bottom: 12px; -webkit-print-color-adjust: exact; }
+            .p-sec-title { background: #f1f5f9; padding: 4px 10px; font-weight: 800; margin: 12px 0 6px 0; color: #1e40af; border-left: 5px solid #1e40af; -webkit-print-color-adjust: exact; font-size: 10pt; }
+            
+            .p-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px; border: 0.5pt solid #e2e8f0; padding: 8px; border-radius: 4px; }
+            .col-12 { grid-column: span 12; } .col-8 { grid-column: span 8; } .col-6 { grid-column: span 6; } .col-4 { grid-column: span 4; } .col-3 { grid-column: span 3; } .col-2 { grid-column: span 2; }
+            
+            .p-field { border-bottom: 0.2pt solid #cbd5e1; padding: 1px 0; }
+            .p-label { font-size: 6pt; font-weight: 800; color: #64748b; text-transform: uppercase; margin-bottom: 1px; }
+            .p-val { font-size: 9pt; font-weight: 600; min-height: 1.1em; color: black; }
+            
+            .p-sig-box { margin-top: 35px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+            .p-sig { border: 1pt solid #cbd5e1; height: 90px; display: flex; align-items: end; justify-content: center; padding-bottom: 5px; font-size: 7pt; font-weight: 800; background: #fcfcfc; }
+        }
+        #printSection { display: none; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-5xl mx-auto">
+        
+        <header class="text-center mb-10 no-print">
+            <h1 class="text-5xl font-black text-blue-900 italic tracking-tighter">LORBANK</h1>
+            <p class="text-slate-500 font-bold text-[10px] tracking-[0.4em] uppercase">Medios de Pago Internacionales</p>
+            <div class="mt-2">
+                <p class="text-slate-700 font-semibold text-sm">Departamento de Internacional</p>
+                <p class="text-blue-600 font-black text-lg uppercase tracking-tight">Transferencia Internacional</p>
+            </div>
+        </header>
+
+        <div class="flex gap-4 mb-8 no-print">
+            <button onclick="handlePrint()" class="btn-action btn-print">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6v-8z"/></svg>
+                PDF (AAAA/MM/DD)
+            </button>
+            <button onclick="generateXML()" class="btn-action btn-xml">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                GENERAR XML PAIN.001.001.11
+            </button>
+        </div>
+
+        <form id="isoForm" class="no-print">
+            <!-- 1. ORDENANTE -->
+            <div class="section-card block-ord">
+                <div class="section-header text-blue-800">1. Datos del Ordenante</div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="input-group md:col-span-3"><label>Nombre legal exacto</label><input type="text" name="ordNombre"></div>
+                    <div class="input-group"><label>Tipo de cliente</label><select name="ordTipo"><option>Empresa</option><option>Persona Física</option></select></div>
+                    <div class="input-group"><label>Identificador Fiscal (CIF)</label><input type="text" name="ordId"></div>
+                    <div class="input-group md:col-span-2"><label>Calle</label><input type="text" name="ordCalle"></div>
+                    <div class="input-group"><label>Número</label><input type="text" name="ordNum"></div>
+                    <div class="input-group"><label>Código Postal</label><input type="text" name="ordCP"></div>
+                    <div class="input-group"><label>Ciudad</label><input type="text" name="ordCiudad"></div>
+                    <div class="input-group"><label>País (ISO)</label><input type="text" name="ordPais" value="ES" maxlength="2"></div>
+                    <div class="input-group md:col-span-2"><label>Cuenta origen (IBAN)</label><input type="text" name="ordIBAN"></div>
+                    <div class="input-group"><label>Banco Ordenante</label><input type="text" name="ordBanco" value="LORBANK S.A."></div>
+                    <div class="input-group"><label>Código LEI</label><input type="text" name="ordLEI"></div>
+                </div>
+            </div>
+
+            <!-- 2. BENEFICIARIO -->
+            <div class="section-card block-ben">
+                <div class="section-header text-sky-800">2. Datos del Beneficiario</div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="input-group md:col-span-3"><label>Nombre legal oficial destino</label><input type="text" name="benNombre"></div>
+                    <div class="input-group"><label>BIC / SWIFT</label><input type="text" name="benBIC"></div>
+                    <div class="input-group md:col-span-2"><label>Calle</label><input type="text" name="benCalle"></div>
+                    <div class="input-group"><label>Número</label><input type="text" name="benNum"></div>
+                    <div class="input-group"><label>Código Postal</label><input type="text" name="benCP"></div>
+                    <div class="input-group"><label>Ciudad</label><input type="text" name="benCiudad"></div>
+                    <div class="input-group"><label>País (ISO)</label><input type="text" name="benPais" maxlength="2"></div>
+                    <div class="input-group md:col-span-2"><label>Cuenta / IBAN Abono</label><input type="text" name="benIBAN"></div>
+                    <div class="input-group md:col-span-2"><label>Banco del Beneficiario</label><input type="text" name="benBanco"></div>
+                    
+                    <div class="md:col-span-4 border-t pt-4 mt-2">
+                        <label class="text-sky-600 block mb-2 font-black">Banco Intermediario</label>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="input-group"><label>Nombre</label><input type="text" name="intNombre"></div>
+                            <div class="input-group"><label>BIC</label><input type="text" name="intBIC"></div>
+                            <div class="input-group"><label>País</label><input type="text" name="intPais" maxlength="2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. PAGO DESGLOSADO -->
+            <div class="section-card block-pago">
+                <div class="section-header text-teal-800">3. Datos del Pago</div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    <div class="input-group"><label>Importe exacto</label><input type="number" step="0.01" name="pagoImporte"></div>
+                    <div class="input-group"><label>Divisa ISO</label><input type="text" name="pagoDivisa" value="EUR"></div>
+                    <div class="input-group"><label>Gastos (SHA/OUR/BEN)</label><select name="pagoGastos"><option>SHA</option><option>OUR</option><option>BEN</option></select></div>
+                    <div class="input-group"><label>Purpose Code</label><input type="text" name="pagoPurpose" placeholder="SUPP"></div>
+                    <div class="input-group"><label>End-to-End ID</label><input type="text" name="pagoE2E"></div>
+                    <div class="input-group"><label>Número de Factura</label><input type="text" name="pagoFactNum"></div>
+                    <div class="input-group"><label>Fecha Factura</label><input type="date" name="pagoFactFec"></div>
+                    <div class="input-group"><label>Fecha Ejecución</label><input type="date" name="pagoEjec"></div>
+                    <div class="input-group md:col-span-4"><label>Concepto Comercial</label><input type="text" name="pagoConcepto"></div>
+                </div>
+            </div>
+
+            <!-- Footer URL -->
+            <div class="text-center pb-8 opacity-60">
+                <p class="text-xs font-bold text-slate-500 tracking-widest">www.mediosdepagointernacional.es</p>
+            </div>
+        </form>
+
+        <!-- PDF RENDER -->
+        <div id="printSection">
+            <div class="print-container">
+                <div class="p-header">
+                    <div>
+                        <div style="font-size: 28pt; font-weight: 900; color: #1e40af;">LORBANK</div>
+                        <div style="font-size: 8pt; font-weight: 700; color: #64748b; letter-spacing: 2px;">MEDIOS DE PAGO INTERNACIONALES</div>
+                        <div style="font-size: 8pt; font-weight: 800; color: #334155; margin-top: 2px;">DEPARTAMENTO DE INTERNACIONAL</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 7pt; color: #64748b;">FECHA DE SOLICITUD</div>
+                        <div style="font-size: 10pt; font-weight: bold;" id="p_fec_solic"></div>
+                    </div>
+                </div>
+
+                <div class="p-main-title">ORDEN DE TRANSFERENCIA INTERNACIONAL ISO 20022</div>
+
+                <div class="p-sec-title">DATOS DEL ORDENANTE</div>
+                <div class="p-grid">
+                    <div class="col-8 p-field"><div class="p-label">Nombre Legal Exacto</div><div class="p-val" id="p_o_nom"></div></div>
+                    <div class="col-4 p-field"><div class="p-label">Id. Fiscal / Tipo</div><div class="p-val" id="p_o_id"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">Dirección (Calle y Nº)</div><div class="p-val" id="p_o_dir"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">C.P. / Ciudad</div><div class="p-val" id="p_o_loc"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">País</div><div class="p-val" id="p_o_pai"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">IBAN Origen</div><div class="p-val" id="p_o_iban"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">Entidad y LEI</div><div class="p-val" id="p_o_ban"></div></div>
+                </div>
+
+                <div class="p-sec-title">DATOS DEL BENEFICIARIO</div>
+                <div class="p-grid">
+                    <div class="col-8 p-field"><div class="p-label">Titular en Destino</div><div class="p-val" id="p_b_nom"></div></div>
+                    <div class="col-4 p-field"><div class="p-label">BIC / SWIFT</div><div class="p-val" id="p_b_bic"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">Dirección (Calle y Nº)</div><div class="p-val" id="p_b_dir"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">C.P. / Ciudad</div><div class="p-val" id="p_b_loc"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">País</div><div class="p-val" id="p_b_pai"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">Cuenta / IBAN</div><div class="p-val" id="p_b_iban"></div></div>
+                    <div class="col-6 p-field"><div class="p-label">Banco Beneficiario</div><div class="p-val" id="p_b_ban"></div></div>
+                    <div class="col-12"><div style="font-size: 6pt; font-weight: 900; color: #64748b; border-bottom: 1px dashed #e2e8f0;">BANCO INTERMEDIARIO</div></div>
+                    <div class="col-6 p-field"><div class="p-label">Nombre Intermediario</div><div class="p-val" id="p_i_nom"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">BIC</div><div class="p-val" id="p_i_bic"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">País</div><div class="p-val" id="p_i_pai"></div></div>
+                </div>
+
+                <div class="p-sec-title">DATOS DEL PAGO</div>
+                <div class="p-grid">
+                    <div class="col-4 p-field"><div class="p-label">Importe</div><div class="p-val" style="font-size: 13pt; color: #1e40af;" id="p_p_imp"></div></div>
+                    <div class="col-2 p-field"><div class="p-label">Divisa</div><div class="p-val" id="p_p_div"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">Gastos</div><div class="p-val" id="p_p_gas"></div></div>
+                    <div class="col-3 p-field"><div class="p-label">Purpose Code</div><div class="p-val" id="p_p_pur" style="font-weight: 800;"></div></div>
+                    <div class="col-4 p-field"><div class="p-label">End-to-End ID</div><div class="p-val" id="p_p_e2e"></div></div>
+                    <div class="col-4 p-field"><div class="p-label">Nº Factura / Fecha</div><div class="p-val" id="p_p_fac"></div></div>
+                    <div class="col-4 p-field"><div class="p-label">Fecha Ejecución</div><div class="p-val" id="p_p_eje"></div></div>
+                    <div class="col-12 p-field"><div class="p-label">Código UETR (Tracking ID)</div><div class="p-val" id="p_p_uetr" style="font-family: monospace; font-size: 8pt; color: #475569;"></div></div>
+                    <div class="col-12 p-field"><div class="p-label">Concepto Comercial</div><div class="p-val" id="p_p_con"></div></div>
+                </div>
+
+                <div class="p-sig-box">
+                    <div class="p-sig">FIRMA DEL ORDENANTE</div>
+                    <div class="p-sig">CONTROL BANCARIO</div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; font-size: 6pt; color: #94a3b8; font-weight: 700; letter-spacing: 1px;">
+                    WWW.MEDIOSDEPAGOINTERNACIONAL.ES
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Formateador de fecha AAAA/MM/DD
+        function fmtDate(isoStr) {
+            if(!isoStr) return '---';
+            return isoStr.replace(/-/g, '/');
+        }
+
+        // Generador de UUID v4 para el UETR
+        function generateUETR() {
+            return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+                (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+            );
+        }
+
+        function handlePrint() {
+            const d = Object.fromEntries(new FormData(document.getElementById('isoForm')).entries());
+            
+            // Requisito: Fecha solicitud = Fecha ejecución para fines didácticos
+            document.getElementById('p_fec_solic').innerText = fmtDate(d.pagoEjec) || '---';
+
+            // Ordenante
+            document.getElementById('p_o_nom').innerText = d.ordNombre || '---';
+            document.getElementById('p_o_id').innerText = (d.ordId || '') + ' (' + (d.ordTipo || '') + ')';
+            document.getElementById('p_o_dir').innerText = (d.ordCalle || '') + ' ' + (d.ordNum || '');
+            document.getElementById('p_o_loc').innerText = (d.ordCP || '') + ' ' + (d.ordCiudad || '');
+            document.getElementById('p_o_pai').innerText = d.ordPais || '---';
+            document.getElementById('p_o_iban').innerText = d.ordIBAN || '---';
+            document.getElementById('p_o_ban').innerText = (d.ordBanco || '') + (d.ordLEI ? ' / LEI: '+d.ordLEI : '');
+
+            // Beneficiario
+            document.getElementById('p_b_nom').innerText = d.benNombre || '---';
+            document.getElementById('p_b_bic').innerText = d.benBIC || '---';
+            document.getElementById('p_b_dir').innerText = (d.benCalle || '') + ' ' + (d.benNum || '');
+            document.getElementById('p_b_loc').innerText = (d.benCP || '') + ' ' + (d.benCiudad || '');
+            document.getElementById('p_b_pai').innerText = d.benPais || '---';
+            document.getElementById('p_b_iban').innerText = d.benIBAN || '---';
+            document.getElementById('p_b_ban').innerText = d.benBanco || '---';
+
+            // Intermediario
+            document.getElementById('p_i_nom').innerText = d.intNombre || 'N/A';
+            document.getElementById('p_i_bic').innerText = d.intBIC || 'N/A';
+            document.getElementById('p_i_pai').innerText = d.intPais || 'N/A';
+
+            // Pago
+            document.getElementById('p_p_imp').innerText = parseFloat(d.pagoImporte || 0).toLocaleString('es-ES', { minimumFractionDigits: 2 });
+            document.getElementById('p_p_div').innerText = d.pagoDivisa || '---';
+            document.getElementById('p_p_gas').innerText = d.pagoGastos || '---';
+            document.getElementById('p_p_pur').innerText = d.pagoPurpose || '---';
+            document.getElementById('p_p_e2e').innerText = d.pagoE2E || '---';
+            document.getElementById('p_p_fac').innerText = (d.pagoFactNum || '') + (d.pagoFactFec ? ' / ' + fmtDate(d.pagoFactFec) : '');
+            document.getElementById('p_p_eje').innerText = fmtDate(d.pagoEjec) || 'ASAP';
+            document.getElementById('p_p_con').innerText = d.pagoConcepto || '---';
+            
+            // Generar y mostrar UETR en el PDF
+            document.getElementById('p_p_uetr').innerText = generateUETR();
+
+            window.print();
+        }
+
+        function generateXML() {
+            const d = Object.fromEntries(new FormData(document.getElementById('isoForm')).entries());
+            const msgId = 'LOR-' + Date.now();
+            const creationDate = new Date().toISOString().split('.')[0];
+
+            let xml = `<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.11">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>${msgId}</MsgId>
+      <CreDtTm>${creationDate}</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <InitgPty><Nm>${esc(d.ordNombre)}</Nm></InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>P_${msgId}</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <ReqdExctnDt><Dt>${d.pagoEjec || new Date().toISOString().split('T')[0]}</Dt></ReqdExctnDt>
+      <Dbtr>
+        <Nm>${esc(d.ordNombre)}</Nm>
+        <PstlAdr><StrtNm>${esc(d.ordCalle)}</StrtNm><BldgNb>${esc(d.ordNum)}</BldgNb><PstCd>${esc(d.ordCP)}</PstCd><TwnNm>${esc(d.ordCiudad)}</TwnNm><Ctry>${d.ordPais}</Ctry></PstlAdr>
+      </Dbtr>
+      <DbtrAcct><Id><IBAN>${d.ordIBAN.replace(/\s/g, '')}</IBAN></Id></DbtrAcct>
+      <DbtrAgt><FinInstnId><BICFI>LORBESMMXXX</BICFI></FinInstnId></DbtrAgt>
+      <ChrgBr>${d.pagoGastos}</ChrgBr>
+      <CdtTrfTxInf>
+        <PmtId><EndToEndId>${d.pagoE2E || 'NOTPROVIDED'}</EndToEndId></PmtId>
+        <Amt><InstdAmt Ccy="${d.pagoDivisa}">${parseFloat(d.pagoImporte || 0).toFixed(2)}</InstdAmt></Amt>
+        ${d.intBIC ? `<IntrmyAgt1><FinInstnId><BICFI>${d.intBIC}</BICFI></FinInstnId></IntrmyAgt1>` : ''}
+        <CdtrAgt><FinInstnId><BICFI>${d.benBIC}</BICFI></FinInstnId></CdtrAgt>
+        <Cdtr><Nm>${esc(d.benNombre)}</Nm></Cdtr>
+        <CdtrAcct><Id><IBAN>${d.benIBAN.replace(/\s/g, '')}</IBAN></Id></CdtrAcct>
+        <Purp><Cd>${d.pagoPurpose || 'CASH'}</Cd></Purp>
+        <RmtInf><Ustrd>${esc(d.pagoConcepto)} / FAC: ${d.pagoFactNum}</Ustrd></RmtInf>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>`;
+
+            const blob = new Blob([xml], { type: 'text/xml' });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = `LORBANK_PAIN001_11_${msgId}.xml`;
+            link.click();
+        }
+
+        function esc(v) {
+            if (!v) return '';
+            return v.replace(/[<>&'"]/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','\'':'&apos;','"':'&quot;'}[c]));
+        }
+    </script>
+</body>
+</html>
