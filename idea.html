@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valoración Idea de Negocio 2026 - Prof. Luis Sánchez Cañizares</title>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-hover: #334155;
+      --bg-input: #0b1329;
+      --accent-gold: #f59e0b;
+      --accent-gold-hover: #d97706;
+      --border-color: #334155;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --status-green: #10b981;
+      --status-red: #ef4444;
+      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background-color: var(--bg-card);
+      border-bottom: 1px solid var(--border-color);
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .header-title h1 {
+      color: var(--accent-gold);
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .header-title p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .badge-user {
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .btn {
+      background: var(--accent-gold);
+      color: #0f172a;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      background: var(--accent-gold-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: var(--border-color);
+      color: var(--text-main);
+    }
+
+    .btn-secondary:hover {
+      background: #475569;
+    }
+
+    .btn-danger {
+      background: var(--status-red);
+      color: #ffffff;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-success {
+      background: var(--status-green);
+      color: #ffffff;
+    }
+
+    .btn-success:hover {
+      background: #059669;
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px 16px;
+      flex-grow: 1;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    select, input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+      margin-bottom: 18px;
+      transition: border-color 0.2s;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    .eval-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .eval-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .peer-list {
+      max-height: 520px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 4px;
+    }
+
+    .peer-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    .peer-list::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .peer-item {
+      padding: 12px 16px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s;
+    }
+
+    .peer-item:hover {
+      border-color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .peer-item.active {
+      border-color: var(--accent-gold);
+      background: rgba(245, 158, 11, 0.18);
+    }
+
+    .peer-item.disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .status-badge {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .badge-success {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--status-green);
+    }
+
+    .badge-pending {
+      background: rgba(148, 163, 184, 0.2);
+      color: var(--text-muted);
+    }
+
+    .q-box {
+      background: rgba(15, 23, 42, 0.5);
+      padding: 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      margin-bottom: 14px;
+    }
+
+    .q-title {
+      font-size: 0.92rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #e2e8f0;
+      line-height: 1.4;
+    }
+
+    .scale-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .scale-options label {
+      flex: 1;
+      text-align: center;
+      margin: 0;
+      cursor: pointer;
+    }
+
+    .scale-options input {
+      display: none;
+    }
+
+    .scale-options span {
+      display: block;
+      padding: 10px 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-weight: 700;
+      color: var(--text-main);
+      transition: all 0.2s;
+    }
+
+    .scale-options input:checked + span {
+      background: var(--accent-gold);
+      color: #0f172a;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+    }
+
+    .podium {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+      align-items: flex-end;
+    }
+
+    @media (max-width: 600px) {
+      .podium {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .podium-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 20px 14px;
+      text-align: center;
+      position: relative;
+    }
+
+    .podium-1 {
+      order: 2;
+      border-color: var(--accent-gold);
+      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15), var(--bg-card));
+    }
+    .podium-2 { order: 1; }
+    .podium-3 { order: 3; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: #0b1329;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.5px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.82);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+
+    .modal-box {
+      width: 360px;
+      max-width: 90%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-title">
+      <h1>VALORACIÓN IDEA DE NEGOCIO 2026</h1>
+      <p>Gestión Económica y Financiera — Prof. Luis Sánchez Cañizares</p>
+    </div>
+    <div class="user-info">
+      <div id="user-badge" class="badge-user hidden">
+        👤 <span id="user-badge-name"></span>
+      </div>
+      <button onclick="openTeacherModal()" class="btn btn-secondary" style="font-size: 0.85rem;">
+        🔒 Acceso Docente
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <div id="view-login" class="card" style="max-width: 480px; margin: 30px auto;">
+      <h2 style="margin-bottom: 6px; text-align: center;">Identificación de Alumno</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-bottom: 22px;">
+        Selecciona tu nombre en la lista para ingresar a evaluar.
+      </p>
+
+      <label for="select-student">Tu Nombre:</label>
+      <select id="select-student" onchange="onStudentSelectChange()">
+        <!-- Populated dynamically -->
+      </select>
+
+      <div id="box-idea" class="hidden">
+        <label for="input-idea">Nombre de tu Idea de Negocio:</label>
+        <input type="text" id="input-idea" placeholder="Ej: Plataforma de Gestión de Residuos">
+        <p style="color: var(--accent-gold); font-size: 0.78rem; margin-top: -12px; margin-bottom: 16px;">
+          ℹ️ Es tu primera vez ingresando. Registra el nombre de tu proyecto.
+        </p>
+      </div>
+
+      <button onclick="loginStudent()" class="btn" style="width: 100%;">Ingresar al Sistema</button>
+    </div>
+
+    <div id="view-closed" class="card hidden" style="max-width: 520px; margin: 30px auto; text-align: center; padding: 36px 24px;">
+      <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
+      <h2 style="font-size: 1.4rem; margin-bottom: 10px;">Votaciones Cerradas</h2>
+      <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; margin-bottom: 24px;">
+        El profesor <strong>Luis Sánchez Cañizares</strong> aún no ha abierto el turno de votación.<br>
+        Presta atención a la exposición de tu compañero/a.
+      </p>
+
+      <button onclick="checkAppState()" class="btn btn-secondary">
+        🔄 Comprobar si se han abierto
+      </button>
+
+      <div style="margin-top: 20px;">
+        <button onclick="logoutStudent()" style="background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; font-size: 0.82rem;">
+          Cambiar de usuario
+        </button>
+      </div>
+    </div>
+
+    <div id="view-eval" class="hidden">
+      <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; margin-bottom: 16px;">
+        <span style="font-weight: 700; color: var(--status-green); font-size: 0.9rem;" id="banner-status">
+          🟢 Votaciones Abiertas
+        </span>
+        <button onclick="logoutStudent()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 14px;">
+          Cerrar Sesión
+        </button>
+      </div>
+
+      <div class="eval-grid">
+        <!-- Student List Column -->
+        <div class="card" style="padding: 18px;">
+          <h3 style="font-size: 0.9rem; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Compañeros</span>
+            <span id="eval-progress" style="color: var(--accent-gold); font-weight: 800;">0/0</span>
+          </h3>
+          <div id="peer-container" class="peer-list"></div>
+        </div>
+
+        <!-- Question Form Column -->
+        <div class="card" style="padding: 20px;">
+          <div id="no-peer-selected" style="text-align: center; color: var(--text-muted); padding: 60px 0;">
+            👈 Selecciona un compañero de la lista para proceder a evaluarlo.
+          </div>
+
+          <div id="form-container" class="hidden">
+            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
+              <span id="target-num" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 800;"></span>
+              <h2 id="target-name" style="margin-top: 6px; font-size: 1.25rem;"></h2>
+              <p id="target-idea" style="color: var(--accent-gold); font-weight: 600; font-size: 0.92rem; margin-top: 2px;"></p>
+            </div>
+
+            <form id="eval-form">
+              <div class="q-box">
+                <div class="q-title">1. Sabe transmitir la IDEA que presenta</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q1" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q1" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q1" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q1" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q1" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <div class="q-box">
+                <div class="q-title">2. ¿La idea es suficientemente buena en sí misma? ¿Está orientada al mercado?</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q2" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q2" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q2" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q2" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q2" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <div class="q-box">
+                <div class="q-title">3. ¿Tiene un concepto sencillo?</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q3" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q3" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q3" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q3" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q3" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <div class="q-box">
+                <div class="q-title">4. ¿Poseemos un conocimiento técnico suficiente del sector?</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q4" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q4" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q4" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q4" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q4" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <div class="q-box">
+                <div class="q-title">5. ¿Es fácil de llevar a la práctica esta idea?</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q5" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q5" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q5" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q5" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q5" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <div class="q-box">
+                <div class="q-title">6. ¿Tenemos fe en ella?</div>
+                <div class="scale-options">
+                  <label><input type="radio" name="q6" value="1" required><span>1</span></label>
+                  <label><input type="radio" name="q6" value="2"><span>2</span></label>
+                  <label><input type="radio" name="q6" value="3"><span>3</span></label>
+                  <label><input type="radio" name="q6" value="4"><span>4</span></label>
+                  <label><input type="radio" name="q6" value="5"><span>5</span></label>
+                </div>
+              </div>
+
+              <button type="button" id="btn-save-eval" onclick="saveEvaluation()" class="btn" style="width: 100%; margin-top: 8px; padding: 12px;">
+                Guardar Valoración
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-teacher" class="hidden">
+      <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+        <div>
+          <h2 style="font-size: 1.25rem;">Panel Docente</h2>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Prof. Luis Sánchez Cañizares</p>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button onclick="copyPodium()" class="btn btn-secondary" style="font-size: 0.85rem;">
+            📋 Copiar Podio
+          </button>
+          <button onclick="exportCSV()" class="btn btn-success" style="font-size: 0.85rem;">
+            📊 Exportar Excel/CSV
+          </button>
+          <button onclick="closeTeacherView()" class="btn btn-danger" style="font-size: 0.85rem;">
+            Salir Docente
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls Panel -->
+      <div class="card" style="border-color: var(--accent-gold);">
+        <h3 style="font-size: 0.95rem; margin-bottom: 14px; color: var(--accent-gold);">
+          ⚙️ Control de Votaciones en Clase
+        </h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; align-items: center;">
+          <div>
+            <label>Estado Global:</label>
+            <div style="display: flex; gap: 10px;">
+              <button onclick="toggleVoting(true)" class="btn btn-success" style="flex: 1;">Abrir Todas</button>
+              <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex: 1;">Cerrar Votación</button>
+            </div>
+          </div>
+          <div>
+            <label for="select-presenter">Habilitar SOLO al expositor actual:</label>
+            <div style="display: flex; gap: 8px;">
+              <select id="select-presenter" style="margin-bottom: 0;">
+                <!-- Populated dynamically -->
+              </select>
+              <button onclick="setPresenterOnly()" class="btn">Activar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Podium Banner -->
+      <h3 style="text-align: center; margin-top: 28px; text-transform: uppercase; color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1px;">
+        🏆 Podio de Honor
+      </h3>
+      <div id="podium-box" class="podium"></div>
+
+      <!-- Full Score Table -->
+      <div class="card" style="overflow-x: auto;">
+        <h3 style="margin-bottom: 12px; font-size: 1rem;">Clasificación Completa (Medias Aritméticas)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Pos</th>
+              <th>Nº</th>
+              <th>Alumno</th>
+              <th>Idea de Negocio</th>
+              <th>Votos</th>
+              <th>Media Total</th>
+              <th>Q1</th>
+              <th>Q2</th>
+              <th>Q3</th>
+              <th>Q4</th>
+              <th>Q5</th>
+              <th>Q6</th>
+            </tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="modal-pass" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3 style="margin-bottom: 6px; text-align: center;">Acceso Docente</h3>
+      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Introduzca su clave de acceso:</p>
+      <input type="password" id="pass-input" placeholder="••••••••" onkeyup="if(event.key==='Enter') loginTeacher()">
+      <div style="display: flex; gap: 10px;">
+        <button onclick="closeTeacherModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
+        <button onclick="loginTeacher()" class="btn" style="flex: 1;">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 29 PRELOADED STUDENTS
+    const initialStudents = [
+      { id: 1, name: "TAGMOUTI ABDOUNE ASSYA", idea: "" },
+      { id: 2, name: "PERÁN SÁEZ ANDRÉS", idea: "" },
+      { id: 3, name: "BEL FATEH BOUKHRIS MONIA", idea: "" },
+      { id: 4, name: "PÉREZ ROSEL PEDRO", idea: "" },
+      { id: 5, name: "MECHKOUR JAGHANI ILYAS", idea: "" },
+      { id: 6, name: "BASTIDA RUIZ DAMIÁN", idea: "" },
+      { id: 7, name: "YASSIMI MOULOUA WIAM EL", idea: "" },
+      { id: 8, name: "ROS SÁNCHEZ RUBÉN", idea: "" },
+      { id: 9, name: "MORENO DÍAZ MÍA GRACIELA", idea: "" },
+      { id: 10, name: "NAVARRO PLAZAS MARÍA", idea: "" },
+      { id: 11, name: "OUFAIRI FARRA HIBA EL", idea: "" },
+      { id: 12, name: "QUINTERO MARÍN KATHERIN", idea: "" },
+      { id: 13, name: "RAHALI SABIR NISRINE", idea: "" },
+      { id: 14, name: "REBOLLO VILAR EUGENIO", idea: "" },
+      { id: 15, name: "SEMMOUDI DAOUD FÁTIMA ZAHRA", idea: "" },
+      { id: 16, name: "TORRES PERIAGO JUAN CARLOS", idea: "" },
+      { id: 17, name: "CISNEROS GAROFALO ANABEL LILIBETH", idea: "" },
+      { id: 18, name: "CJURO RAMOS DIANA KIMBERLY", idea: "" },
+      { id: 19, name: "CORJESCU ANAMARIA VIOLETA", idea: "" },
+      { id: 20, name: "FERNÁNDEZ NAVARRO JAIRO", idea: "" },
+      { id: 21, name: "GONZÁLEZ PERDOMO MAYRA ALEJANDRA", idea: "" },
+      { id: 22, name: "HANNASSI HAMZA EL", idea: "" },
+      { id: 23, name: "HOUARI LAHCEN OSAMA EL", idea: "" },
+      { id: 24, name: "HUSSAIN BEVI SYED KAZIM", idea: "" },
+      { id: 25, name: "JUÁREZ ESCOBAR MARÍA CELESTE", idea: "" },
+      { id: 26, name: "LÓPEZ GARCÍA ÓSCAR", idea: "" },
+      { id: 27, name: "JEMERHILI MEZIANE AAYA", idea: "" },
+      { id: 28, name: "SARIH JAMAKH KAOUTAR", idea: "" },
+      { id: 29, name: "ALUMNO/A NUEVA INCORPORACIÓN", idea: "" }
+    ];
+
+    // STATE INITIALIZATION
+    let students = [];
+    try {
+      const savedStudents = localStorage.getItem('ge_students_2026');
+      students = savedStudents ? JSON.parse(savedStudents) : initialStudents;
+    } catch (e) {
+      students = initialStudents;
+    }
+
+    let evaluations = [];
+    try {
+      const savedEvals = localStorage.getItem('ge_evaluations_2026');
+      evaluations = savedEvals ? JSON.parse(savedEvals) : [];
+    } catch (e) {
+      evaluations = [];
+    }
+
+    let settings = { votingOpen: false, activePresenterId: null };
+    try {
+      const savedSettings = localStorage.getItem('ge_settings_2026');
+      if (savedSettings) settings = JSON.parse(savedSettings);
+    } catch (e) {
+      settings = { votingOpen: false, activePresenterId: null };
+    }
+
+    let currentStudent = null;
+    let selectedPeerId = null;
+    const TEACHER_PASS = "lsanchezca";
+
+    window.onload = function() {
+      saveData();
+      populateDropdowns();
+      checkAppState();
+    };
+
+    function saveData() {
+      localStorage.setItem('ge_students_2026', JSON.stringify(students));
+      localStorage.setItem('ge_evaluations_2026', JSON.stringify(evaluations));
+      localStorage.setItem('ge_settings_2026', JSON.stringify(settings));
+    }
+
+    function populateDropdowns() {
+      const selectStudent = document.getElementById('select-student');
+      const selectPresenter = document.getElementById('select-presenter');
+
+      selectStudent.innerHTML = '<option value="">-- Selecciona tu nombre --</option>';
+      selectPresenter.innerHTML = '<option value="">-- Todos los alumnos --</option>';
+
+      students.forEach(s => {
+        const opt1 = document.createElement('option');
+        opt1.value = s.id;
+        opt1.textContent = `Nº ${s.id} - ${s.name}`;
+        selectStudent.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = s.id;
+        opt2.textContent = `Nº ${s.id} - ${s.name}`;
+        if (settings.activePresenterId == s.id) opt2.selected = true;
+        selectPresenter.appendChild(opt2);
+      });
+    }
+
+    function onStudentSelectChange() {
+      const val = document.getElementById('select-student').value;
+      const st = students.find(s => s.id == val);
+      const box = document.getElementById('box-idea');
+      
+      if (st && !st.idea) {
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    function checkAppState() {
+      const loggedId = sessionStorage.getItem('logged_student_id_2026');
+      if (loggedId) {
+        currentStudent = students.find(s => s.id == loggedId);
+      }
+
+      if (currentStudent) {
+        document.getElementById('user-badge-name').textContent = currentStudent.name;
+        document.getElementById('user-badge').classList.remove('hidden');
+
+        if (!settings.votingOpen) {
+          showView('view-closed');
+        } else {
+          showView('view-eval');
+          renderPeerList();
+        }
+      } else {
+        showView('view-login');
+        document.getElementById('user-badge').classList.add('hidden');
+      }
+    }
+
+    function showView(viewId) {
+      ['view-login', 'view-closed', 'view-eval', 'view-teacher'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(viewId).classList.remove('hidden');
+    }
+
+    function loginStudent() {
+      const val = document.getElementById('select-student').value;
+      if (!val) return alert('Por favor, selecciona tu nombre.');
+
+      const st = students.find(s => s.id == val);
+      if (!st.idea) {
+        const ideaVal = document.getElementById('input-idea').value.trim();
+        if (!ideaVal) return alert('Por favor, indica el nombre de tu idea de negocio.');
+        st.idea = ideaVal;
+        saveData();
+      }
+
+      currentStudent = st;
+      sessionStorage.setItem('logged_student_id_2026', currentStudent.id);
+      checkAppState();
+    }
+
+    function logoutStudent() {
+      sessionStorage.removeItem('logged_student_id_2026');
+      currentStudent = null;
+      checkAppState();
+    }
+
+    function renderPeerList() {
+      const container = document.getElementById('peer-container');
+      container.innerHTML = '';
+
+      let total = 0;
+      let done = 0;
+
+      students.forEach(peer => {
+        // Block self-evaluation
+        if (peer.id === currentStudent.id) return;
+
+        const isRestricted = settings.activePresenterId && settings.activePresenterId != peer.id;
+        const alreadyDone = evaluations.some(e => e.evaluatorId === currentStudent.id && e.targetId === peer.id);
+
+        total++;
+        if (alreadyDone) done++;
+
+        const item = document.createElement('div');
+        item.className = `peer-item ${selectedPeerId === peer.id ? 'active' : ''} ${isRestricted ? 'disabled' : ''}`;
+        
+        item.onclick = () => {
+          if (isRestricted) {
+            return alert('El profesor ha habilitado la votación exclusivamente para el expositor actual.');
+          }
+          selectPeer(peer.id);
+        };
+
+        item.innerHTML = `
+          <div>
+            <strong style="font-size: 0.8rem; color: var(--accent-gold);">Nº ${peer.id}</strong>
+            <div style="font-size: 0.85rem; font-weight: 600;">${peer.name}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">${peer.idea || 'Sin idea registrada'}</div>
+          </div>
+          <div>
+            ${alreadyDone ? '<span class="status-badge badge-success">Evaluado</span>' : '<span class="status-badge badge-pending">Pendiente</span>'}
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById('eval-progress').textContent = `${done}/${total}`;
+    }
+
+    function selectPeer(peerId) {
+      selectedPeerId = peerId;
+      renderPeerList();
+
+      const peer = students.find(s => s.id === peerId);
+      document.getElementById('no-peer-selected').classList.add('hidden');
+      document.getElementById('form-container').classList.remove('hidden');
+
+      document.getElementById('target-num').textContent = `Nº ${peer.id}`;
+      document.getElementById('target-name').textContent = peer.name;
+      document.getElementById('target-idea').textContent = peer.idea ? `Idea: "${peer.idea}"` : 'Sin idea registrada';
+
+      const form = document.getElementById('eval-form');
+      form.reset();
+
+      const existing = evaluations.find(e => e.evaluatorId === currentStudent.id && e.targetId === peer.id);
+      const btn = document.getElementById('btn-save-eval');
+
+      if (existing) {
+        btn.disabled = true;
+        btn.textContent = "Ya has valorado a este compañero/a";
+        btn.className = "btn btn-secondary";
+        for (let i = 1; i <= 6; i++) {
+          const r = form.querySelector(`input[name="q${i}"][value="${existing['q' + i]}"]`);
+          if (r) r.checked = true;
+        }
+      } else {
+        btn.disabled = false;
+        btn.textContent = "Guardar Valoración";
+        btn.className = "btn";
+      }
+    }
+
+    function saveEvaluation() {
+      if (!selectedPeerId || !currentStudent) return;
+
+      const form = document.getElementById('eval-form');
+      const formData = new FormData(form);
+
+      const q1 = parseInt(formData.get('q1'));
+      const q2 = parseInt(formData.get('q2'));
+      const q3 = parseInt(formData.get('q3'));
+      const q4 = parseInt(formData.get('q4'));
+      const q5 = parseInt(formData.get('q5'));
+      const q6 = parseInt(formData.get('q6'));
+
+      if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) {
+        return alert('Por favor, puntúa las 6 preguntas de 1 a 5 antes de guardar.');
+      }
+
+      evaluations.push({
+        evaluatorId: currentStudent.id,
+        targetId: selectedPeerId,
+        q1, q2, q3, q4, q5, q6
+      });
+
+      saveData();
+      alert('¡Valoración guardada correctamente!');
+      selectPeer(selectedPeerId);
+    }
+
+    function openTeacherModal() {
+      document.getElementById('modal-pass').classList.remove('hidden');
+      document.getElementById('pass-input').value = '';
+      document.getElementById('pass-input').focus();
+    }
+
+    function closeTeacherModal() {
+      document.getElementById('modal-pass').classList.add('hidden');
+    }
+
+    function loginTeacher() {
+      const pass = document.getElementById('pass-input').value;
+      if (pass === TEACHER_PASS) {
+        closeTeacherModal();
+        showTeacherDashboard();
+      } else {
+        alert('Contraseña incorrecta.');
+      }
+    }
+
+    function showTeacherDashboard() {
+      showView('view-teacher');
+      renderTeacherData();
+    }
+
+    function closeTeacherView() {
+      checkAppState();
+    }
+
+    function toggleVoting(isOpen) {
+      settings.votingOpen = isOpen;
+      saveData();
+      alert(`Votaciones ${isOpen ? 'ABIERTAS' : 'CERRADAS'}`);
+      renderTeacherData();
+    }
+
+    function setPresenterOnly() {
+      const val = document.getElementById('select-presenter').value;
+      settings.votingOpen = true;
+      settings.activePresenterId = val ? parseInt(val) : null;
+      saveData();
+      alert(val ? `Votación habilitada SOLO para el alumno de la posición elegida.` : 'Votación habilitada para todos los alumnos.');
+      renderTeacherData();
+    }
+
+    function getStats() {
+      return students.map(s => {
+        const list = evaluations.filter(e => e.targetId === s.id);
+        const count = list.length;
+
+        if (count === 0) return { ...s, voteCount: 0, avgTotal: 0, q1: 0, q2: 0, q3: 0, q4: 0, q5: 0, q6: 0 };
+
+        const q1 = list.reduce((a, b) => a + b.q1, 0) / count;
+        const q2 = list.reduce((a, b) => a + b.q2, 0) / count;
+        const q3 = list.reduce((a, b) => a + b.q3, 0) / count;
+        const q4 = list.reduce((a, b) => a + b.q4, 0) / count;
+        const q5 = list.reduce((a, b) => a + b.q5, 0) / count;
+        const q6 = list.reduce((a, b) => a + b.q6, 0) / count;
+        const avgTotal = (q1 + q2 + q3 + q4 + q5 + q6) / 6;
+
+        return { ...s, voteCount: count, avgTotal, q1, q2, q3, q4, q5, q6 };
+      }).sort((a, b) => b.avgTotal - a.avgTotal);
+    }
+
+    function renderTeacherData() {
+      const stats = getStats();
+
+      // Podium
+      const podium = document.getElementById('podium-box');
+      podium.innerHTML = '';
+      
+      const top3 = [
+        { rank: '2º Puesto 🥈', data: stats[1], class: 'podium-2' },
+        { rank: '🥇 1º Puesto', data: stats[0], class: 'podium-1' },
+        { rank: '3º Puesto 🥉', data: stats[2], class: 'podium-3' }
+      ];
+
+      top3.forEach(p => {
+        if (!p.data) return;
+        const div = document.createElement('div');
+        div.className = `podium-card ${p.class}`;
+        div.innerHTML = `
+          <strong style="color:var(--accent-gold); font-size:0.85rem;">${p.rank}</strong>
+          <div style="font-weight:bold; margin:8px 0; font-size: 0.95rem;">Nº ${p.data.id} - ${p.data.name}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted); italic;">${p.data.idea || 'Sin idea registrada'}</div>
+          <div style="font-size:2rem; font-weight:900; color:var(--accent-gold); margin-top:10px;">${p.data.avgTotal.toFixed(2)}</div>
+        `;
+        podium.appendChild(div);
+      });
+
+      // Table
+      const tbody = document.getElementById('ranking-body');
+      tbody.innerHTML = '';
+
+      stats.forEach((st, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${idx + 1}º</strong></td>
+          <td>Nº ${st.id}</td>
+          <td><strong>${st.name}</strong></td>
+          <td><em>${st.idea || '-'}</em></td>
+          <td>${st.voteCount}</td>
+          <td><strong style="color:var(--accent-gold); font-size:1.05rem;">${st.avgTotal.toFixed(2)}</strong></td>
+          <td>${st.q1.toFixed(1)}</td>
+          <td>${st.q2.toFixed(1)}</td>
+          <td>${st.q3.toFixed(1)}</td>
+          <td>${st.q4.toFixed(1)}</td>
+          <td>${st.q5.toFixed(1)}</td>
+          <td>${st.q6.toFixed(1)}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function copyPodium() {
+      const stats = getStats();
+      if (stats.length < 3) return alert('Se requieren más valoraciones.');
+
+      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º Puesto: ${stats[0].name} (${stats[0].idea || 'Sin idea'}) - Nota: ${stats[0].avgTotal.toFixed(2)}\n🥈 2º Puesto: ${stats[1].name} (${stats[1].idea || 'Sin idea'}) - Nota: ${stats[1].avgTotal.toFixed(2)}\n🥉 3º Puesto: ${stats[2].name} (${stats[2].idea || 'Sin idea'}) - Nota: ${stats[2].avgTotal.toFixed(2)}`;
+
+      const dummy = document.createElement('textarea');
+      document.body.appendChild(dummy);
+      dummy.value = text;
+      dummy.select();
+      document.execCommand('copy');
+      document.body.removeChild(dummy);
+
+      alert('¡Podio copiado al portapapeles!');
+    }
+
+    function exportCSV() {
+      const stats = getStats();
+      let csv = 'Posicion,NumExposicion,Alumno,Idea,Votos,MediaTotal,Q1,Q2,Q3,Q4,Q5,Q6\n';
+
+      stats.forEach((st, idx) => {
+        csv += `${idx + 1},${st.id},"${st.name}","${st.idea || ''}",${st.voteCount},${st.avgTotal.toFixed(2)},${st.q1.toFixed(2)},${st.q2.toFixed(2)},${st.q3.toFixed(2)},${st.q4.toFixed(2)},${st.q5.toFixed(2)},${st.q6.toFixed(2)}\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'valoraciones_ideas_negocio_2026.csv';
+      a.click();
+    }
+  </script>
+</body>
+</html>
