@@ -1,312 +1,614 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISO 20022: El Lenguaje Universal de Pagos</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .card-gradient { background: linear-gradient(135deg, #1e40af 0%, #1e3a8a 100%); }
-        .fade-in { animation: fadeIn 0.5s ease-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Valoración Idea de Negocio GEF 2026</title>
+  <style>
+    :root {
+      --bg-main: #0f172a;
+      --bg-card: #1e293b;
+      --bg-input: #0f172a;
+      --border: #334155;
+      --accent: #f59e0b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --success: #10b981;
+      --danger: #ef4444;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+    
+    header { background-color: var(--bg-card); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    header h1 { color: var(--accent); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; line-height: 1.2; }
+    header p { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; }
+    
+    .btn { background: var(--accent); color: #000; border: none; padding: 12px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.9rem; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn:active { transform: scale(0.98); }
+    .btn-secondary { background: var(--border); color: var(--text-main); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    
+    main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 12px; flex-grow: 1; }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    .hidden { display: none !important; }
+    
+    label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    select, input[type="text"], input[type="password"] { width: 100%; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; margin-bottom: 14px; }
+    
+    .peer-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 768px) { .peer-grid { grid-template-columns: 1fr 2fr; } }
+    
+    .peer-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
+    .peer-item { padding: 12px; background: rgba(15,23,42,0.6); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .peer-item.active { border-color: var(--accent); background: rgba(245,158,11,0.15); }
+    .peer-item.disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .q-box { background: rgba(15,23,42,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px; }
+    .q-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+    .scale-options { display: flex; gap: 6px; }
+    .scale-options label { flex: 1; text-align: center; margin: 0; }
+    .scale-options input { display: none; }
+    .scale-options span { display: block; padding: 12px 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-weight: bold; color: var(--text-main); cursor: pointer; font-size: 1rem; }
+    .scale-options input:checked + span { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    .status-banner { font-size: 0.85rem; font-weight: 700; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 12px; }
+    .status-open { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .status-closed { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+    .podium { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0; align-items: flex-end; }
+    .podium-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; font-size: 0.8rem; }
+    .podium-1 { order: 2; border-color: var(--accent); }
+    .podium-2 { order: 1; }
+    .podium-3 { order: 3; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #0f172a; color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; }
+  </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex flex-col">
+<body>
 
-    <div id="app" class="flex-grow max-w-4xl mx-auto px-4 py-8 w-full">
-        <!-- Header -->
-        <header class="text-center mb-12">
-            <h1 class="text-4xl font-bold text-slate-800 mb-2">Misión: ISO 20022</h1>
-            <p class="text-slate-600">Domina el estándar que está transformando el sistema financiero global</p>
-        </header>
+  <header>
+    <div>
+      <h1>VALORACIÓN IDEA DE NEGOCIO GEF 2026</h1>
+      <p>Profesor Luis Sánchez Cañizares</p>
+    </div>
+    <div>
+      <button onclick="openTeacherModal()" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 10px;">Acceso Docente</button>
+    </div>
+  </header>
 
-        <!-- Contenedor de Secciones -->
-        <div id="game-content">
-            <!-- Menu Principal -->
-            <div id="main-menu" class="section fade-in">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                    <button onclick="showSection('study-section')" class="p-8 card-gradient text-white rounded-2xl shadow-xl hover:scale-105 transition-transform text-left">
-                        <div class="text-3xl mb-4">📖</div>
-                        <h2 class="text-2xl font-bold mb-2">Centro de Estudio</h2>
-                        <p class="opacity-90">Repasa los conceptos clave: XML, interoperabilidad y datos enriquecidos.</p>
-                    </button>
-                    <button onclick="startQuiz()" class="p-8 bg-white border-2 border-blue-600 text-blue-600 rounded-2xl shadow-xl hover:scale-105 transition-transform text-left">
-                        <div class="text-3xl mb-4">🎮</div>
-                        <h2 class="text-2xl font-bold mb-2">Desafío de 10 Preguntas</h2>
-                        <p class="text-slate-600">Pon a prueba tu nivel avanzado sobre el estándar mundial de mensajería.</p>
-                    </button>
-                </div>
-                
-                <!-- Anagrama Medios de Pago Internacional -->
-                <div class="flex justify-center items-center py-8 border-t border-slate-200">
-                    <img 
-                        src="anagrama_mpi.jpg" 
-                        alt="Anagrama Medios de Pago Internacional" 
-                        class="max-h-24 h-auto opacity-90 hover:opacity-100 transition-opacity"
-                        onerror="this.parentElement.innerHTML='<div class=\'text-slate-400 font-bold tracking-widest text-lg border-2 border-dashed border-slate-300 p-6 rounded-lg\'>ANAGRAMA MEDIOS DE PAGO INTERNACIONAL</div>'"
-                    >
-                </div>
-            </div>
+  <main>
+    <!-- IDENTIFICACIÓN ALUMNO -->
+    <div id="view-login" class="card" style="max-width: 440px; margin: 20px auto;">
+      <h2 style="margin-bottom: 6px; text-align: center; font-size: 1.2rem;">Identificación de Alumno</h2>
+      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Selecciona tu nombre de la lista para acceder:</p>
 
-            <!-- Seccion de Estudio -->
-            <div id="study-section" class="section hidden fade-in bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-                <button onclick="showSection('main-menu')" class="text-blue-600 mb-6 font-semibold flex items-center hover:underline transition-all">
-                    ← Volver al menú
-                </button>
-                <h2 class="text-3xl font-bold text-slate-800 mb-6 border-b pb-4">Conceptos Clave</h2>
-                
-                <!-- ÁREA DE LA IMAGEN LOCAL -->
-                <div class="mb-8 w-full overflow-hidden rounded-xl shadow-sm border border-slate-200 bg-white">
-                    <img 
-                        src="esquema_iso.jpg" 
-                        alt="Esquema del futuro de los pagos con ISO 20022" 
-                        class="w-full h-auto object-contain block mx-auto"
-                        onerror="this.parentElement.innerHTML='<div class=\'p-10 bg-slate-100 text-slate-400 text-center\'><p>⚠️ No se encontró el archivo <b>esquema_iso.jpg</b></p></div>'"
-                    >
-                </div>
+      <label for="select-student">Tu Nombre:</label>
+      <select id="select-student" onchange="onStudentSelectChange()">
+        <option value="">-- Carga de Alumnos... --</option>
+      </select>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="p-4 bg-blue-50 rounded-lg border-l-4 border-blue-400">
-                        <h3 class="font-bold text-blue-800 text-lg">¿Qué es ISO 20022?</h3>
-                        <p class="text-slate-700">Un estándar global basado en XML para mensajes financieros, legible por máquinas y humanos.</p>
-                    </div>
-                    <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-400">
-                        <h3 class="font-bold text-green-800 text-lg">Interoperabilidad</h3>
-                        <p class="text-slate-700">Permite que diferentes sistemas (alto valor, bajo valor, pagos inmediatos) hablen el mismo idioma.</p>
-                    </div>
-                    <div class="p-4 bg-purple-50 rounded-lg border-l-4 border-purple-400">
-                        <h3 class="font-bold text-purple-800 text-lg">Datos Enriquecidos</h3>
-                        <p class="text-slate-700">Capacidad de llevar información detallada como nombres completos de beneficiarios y motivos de pago.</p>
-                    </div>
-                    <div class="p-4 bg-orange-50 rounded-lg border-l-4 border-orange-400">
-                        <h3 class="font-bold text-orange-800 text-lg">STP (Procesamiento Directo)</h3>
-                        <p class="text-slate-700">Al no haber pérdida de datos, las máquinas pueden procesar pagos sin intervención humana manual.</p>
-                    </div>
-                </div>
-            </div>
+      <div id="box-idea" class="hidden">
+        <label for="input-idea">Nombre de tu Idea de Negocio:</label>
+        <input type="text" id="input-idea" placeholder="Ej: Proyecto Empresarial">
+        <p style="color: var(--accent); font-size: 0.75rem; margin-top: -8px; margin-bottom: 12px;">
+          ℹ️ Primera vez accediendo: escribe tu idea.
+        </p>
+      </div>
 
-            <!-- Seccion de Quiz -->
-            <div id="quiz-section" class="section hidden fade-in">
-                <div class="bg-white p-8 rounded-2xl shadow-lg border border-slate-200">
-                    <div class="flex justify-between items-center mb-6">
-                        <button onclick="confirmExit()" class="text-slate-400 hover:text-red-500 flex items-center text-sm font-semibold transition-colors">
-                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            Abandonar Test
-                        </button>
-                        <span id="question-counter" class="text-slate-500 font-medium text-sm md:text-base">Pregunta 1 de 10</span>
-                    </div>
-
-                    <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden mb-8">
-                        <div id="progress-bar" class="bg-blue-600 h-full transition-all" style="width: 10%"></div>
-                    </div>
-
-                    <div id="question-container">
-                        <h2 id="question-text" class="text-xl md:text-2xl font-bold text-slate-800 mb-8 leading-tight">Cargando pregunta...</h2>
-                        <div id="options-container" class="grid grid-cols-1 gap-3">
-                            <!-- Opciones dinámicas -->
-                        </div>
-                    </div>
-
-                    <div id="feedback-container" class="hidden mt-8 p-4 rounded-lg text-center font-bold"></div>
-                    
-                    <button id="next-btn" onclick="nextQuestion()" class="hidden mt-8 w-full py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-colors shadow-lg">
-                        Siguiente Pregunta
-                    </button>
-                </div>
-            </div>
-
-            <!-- Resultados -->
-            <div id="results-section" class="section hidden fade-in text-center bg-white p-12 rounded-2xl shadow-lg">
-                <div id="result-emoji" class="text-6xl mb-6">🏆</div>
-                <h2 class="text-3xl font-bold text-slate-800 mb-2">¡Misión Completada!</h2>
-                <p id="final-score" class="text-xl text-slate-600 mb-8 font-medium whitespace-pre-line"></p>
-                <button onclick="location.reload()" class="px-8 py-3 bg-blue-600 text-white rounded-full font-bold hover:bg-blue-700 transition-all">
-                    Volver al Inicio
-                </button>
-            </div>
-        </div>
+      <button onclick="loginStudent()" class="btn" style="width: 100%;">Entrar a Evaluar</button>
     </div>
 
-    <!-- Pie de página unificado -->
-    <footer class="w-full py-6 mt-auto border-t border-slate-200 bg-slate-50">
-        <div class="text-center">
-            <a href="https://www.mediosdepagointernacional.es" target="_blank" class="text-slate-500 hover:text-blue-600 font-medium transition-colors text-sm md:text-base">
-                www.mediosdepagointernacional.es
-            </a>
-        </div>
-    </footer>
-
-    <!-- Modal de Confirmación para salir -->
-    <div id="exit-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div class="bg-white rounded-2xl p-8 max-w-sm w-full shadow-2xl">
-            <h3 class="text-xl font-bold text-slate-800 mb-4 text-center">¿Seguro que quieres salir?</h3>
-            <p class="text-slate-600 mb-8 text-center">Tu progreso en este test se perderá.</p>
-            <div class="grid grid-cols-2 gap-4">
-                <button onclick="closeModal()" class="py-3 px-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition-all">Cancelar</button>
-                <button onclick="showSection('main-menu'); closeModal()" class="py-3 px-4 bg-red-500 text-white rounded-xl font-bold hover:bg-red-600 transition-all">Sí, salir</button>
-            </div>
-        </div>
+    <!-- PANTALLA DE VOTACIÓN CERRADA -->
+    <div id="view-closed" class="card hidden" style="max-width: 440px; margin: 20px auto; text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🔒</div>
+      <h2 style="font-size: 1.1rem;">Votaciones Cerradas Temporalmente</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin: 12px 0;">
+        El profesor <strong>Luis Sánchez Cañizares</strong> aún no ha abierto la votación para esta presentación.
+      </p>
+      <button onclick="syncAndCheck()" class="btn btn-secondary" style="width: 100%;">🔄 Comprobar si se abrió</button>
+      <div style="margin-top: 12px;">
+        <button onclick="logoutStudent()" style="background:none; border:none; color:var(--text-muted); text-decoration:underline; cursor:pointer; font-size:0.8rem;">Cambiar de alumno</button>
+      </div>
     </div>
 
-    <script>
-        const quizData = [
-            {
-                question: "¿Cuál es la principal ventaja técnica del estándar ISO 20022 frente a los formatos MT tradicionales?",
-                options: ["Uso de sintaxis XML estructurada", "Reducción del tamaño de los archivos", "No requiere conexión a internet", "Es exclusivo para pagos de bajo valor"],
-                correct: 0,
-                hint: "Se basa en el Lenguaje de Marcado Extensible."
-            },
-            {
-                question: "¿Qué permite el 'Diccionario Común' de ISO 20022?",
-                options: ["Traducción automática a 50 idiomas", "Componentes de datos consistentes en todo el mundo", "Sustituir a los bancos por Fintechs", "Eliminar las comisiones bancarias"],
-                correct: 1,
-                hint: "Asegura que los términos signifiquen lo mismo globalmente."
-            },
-            {
-                question: "En pagos transfronterizos, ¿qué problema resuelve este estándar?",
-                options: ["La fluctuación de las criptomonedas", "La falta de cajeros automáticos", "El truncamiento o pérdida de información", "La necesidad de usar tarjetas físicas"],
-                correct: 2,
-                hint: "Evita que los datos se 'recorten' al pasar de un país a otro."
-            },
-            {
-                question: "¿Qué beneficio estratégico aporta a la prevención del crimen financiero (AML)?",
-                options: ["Identificación más precisa de las partes involucradas", "Permite pagos anónimos", "Elimina la necesidad de revisar transacciones", "Hace que los pagos sean indetectables"],
-                correct: 0,
-                hint: "Los datos estructurados facilitan saber quién envía y quién recibe."
-            },
-            {
-                question: "¿Por qué beneficia a la gestión de Tesorería Corporativa?",
-                options: ["Permite imprimir menos billetes", "Mejora la conciliación mediante datos de remesas integrados", "Reduce impuestos automáticamente", "Obliga a usar una sola moneda"],
-                correct: 1,
-                hint: "Ayuda a emparejar facturas con pagos recibidos."
-            },
-            {
-                question: "¿Qué significa que ISO 20022 permite el 'Procesamiento Directo' (STP)?",
-                options: ["Que el pago llega en menos de 1 segundo", "Que no requiere aprobación bancaria", "Que las máquinas procesan el pago sin intervención manual", "Que se entrega dinero en efectivo"],
-                correct: 2,
-                hint: "Menos errores manuales significa mayor automatización."
-            },
-            {
-                question: "¿Cuál es una ventaja de los 'Datos Enriquecidos' para el cumplimiento normativo?",
-                options: ["Sustituir los nombres por códigos secretos", "Reducción de 'falsos positivos' en el filtrado de sanciones", "Aumento de la burocracia", "Ocultar el origen de los fondos"],
-                correct: 1,
-                hint: "Más información clara significa menos errores al detectar sospechosos."
-            },
-            {
-                question: "¿Qué tecnología facilita que ISO 20022 sea interoperable?",
-                options: ["Mensajes de texto (SMS)", "Un modelo de datos común independiente de la red", "Satélites de baja órbita", "Cámaras de vigilancia"],
-                correct: 1,
-                hint: "El modelo es universal, sin importar qué red se use."
-            },
-            {
-                question: "¿Qué papel juega la Inteligencia Artificial con ISO 20022?",
-                options: ["La IA reemplaza a los bancos centrales", "Los datos estructurados facilitan que la IA analice tendencias", "La IA prohíbe los pagos internacionales", "No hay relación entre ambas"],
-                correct: 1,
-                hint: "Para que una IA aprenda, necesita datos bien organizados."
-            },
-            {
-                question: "¿Cómo afecta ISO 20022 a los pagos de 'bajo valor' (retail)?",
-                options: ["Los prohíbe para dar prioridad a los grandes", "Permite una mejor integración con pagos inmediatos", "Solo se aplica a transacciones millonarias", "Hace que sean más lentos que los cheques"],
-                correct: 1,
-                hint: "Unifica la experiencia de pagos pequeños y grandes."
-            }
-        ];
+    <!-- FORMULARIO DE EVALUACIÓN -->
+    <div id="view-eval" class="hidden">
+      <div id="banner-status-box" class="status-banner status-open">🟢 VOTACIONES ABIERTAS</div>
 
-        let currentQuestion = 0;
-        let score = 0;
-        let answered = false;
+      <div class="peer-grid">
+        <div class="card">
+          <h3 style="font-size: 0.85rem; margin-bottom: 10px; display: flex; justify-content: space-between;">
+            <span>Compañeros</span>
+            <span id="eval-progress" style="color: var(--accent);">0/0</span>
+          </h3>
+          <div id="peer-container" class="peer-list"></div>
+        </div>
 
-        function showSection(sectionId) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(sec => sec.classList.add('hidden'));
-            const target = document.getElementById(sectionId);
-            if (target) target.classList.remove('hidden');
+        <div class="card">
+          <div id="no-peer-selected" style="text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 0.85rem;">
+            👈 Pulsa en un compañero de la lista para calificar su idea.
+          </div>
+
+          <div id="form-container" class="hidden">
+            <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 14px;">
+              <span id="target-num" style="background: rgba(245,158,11,0.2); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;"></span>
+              <h2 id="target-name" style="margin-top: 4px; font-size: 1.1rem;"></h2>
+              <p id="target-idea" style="color: var(--accent); font-size: 0.85rem;"></p>
+            </div>
+
+            <form id="eval-form">
+              <div class="q-box"><div class="q-title">1. Sabe transmitir la IDEA que presenta</div><div class="scale-options"><label><input type="radio" name="q1" value="1" required><span>1</span></label><label><input type="radio" name="q1" value="2"><span>2</span></label><label><input type="radio" name="q1" value="3"><span>3</span></label><label><input type="radio" name="q1" value="4"><span>4</span></label><label><input type="radio" name="q1" value="5"><span>5</span></label></div></div>
+              <div class="q-box"><div class="q-title">2. ¿La idea es buena y orientada al mercado?</div><div class="scale-options"><label><input type="radio" name="q2" value="1" required><span>1</span></label><label><input type="radio" name="q2" value="2"><span>2</span></label><label><input type="radio" name="q2" value="3"><span>3</span></label><label><input type="radio" name="q2" value="4"><span>4</span></label><label><input type="radio" name="q2" value="5"><span>5</span></label></div></div>
+              <div class="q-box"><div class="q-title">3. ¿Tiene un concepto sencillo?</div><div class="scale-options"><label><input type="radio" name="q3" value="1" required><span>1</span></label><label><input type="radio" name="q3" value="2"><span>2</span></label><label><input type="radio" name="q3" value="3"><span>3</span></label><label><input type="radio" name="q3" value="4"><span>4</span></label><label><input type="radio" name="q3" value="5"><span>5</span></label></div></div>
+              <div class="q-box"><div class="q-title">4. ¿Conocimiento técnico suficiente del sector?</div><div class="scale-options"><label><input type="radio" name="q4" value="1" required><span>1</span></label><label><input type="radio" name="q4" value="2"><span>2</span></label><label><input type="radio" name="q4" value="3"><span>3</span></label><label><input type="radio" name="q4" value="4"><span>4</span></label><label><input type="radio" name="q4" value="5"><span>5</span></label></div></div>
+              <div class="q-box"><div class="q-title">5. ¿Es fácil de llevar a la práctica?</div><div class="scale-options"><label><input type="radio" name="q5" value="1" required><span>1</span></label><label><input type="radio" name="q5" value="2"><span>2</span></label><label><input type="radio" name="q5" value="3"><span>3</span></label><label><input type="radio" name="q5" value="4"><span>4</span></label><label><input type="radio" name="q5" value="5"><span>5</span></label></div></div>
+              <div class="q-box"><div class="q-title">6. ¿Tenemos fe en ella?</div><div class="scale-options"><label><input type="radio" name="q6" value="1" required><span>1</span></label><label><input type="radio" name="q6" value="2"><span>2</span></label><label><input type="radio" name="q6" value="3"><span>3</span></label><label><input type="radio" name="q6" value="4"><span>4</span></label><label><input type="radio" name="q6" value="5"><span>5</span></label></div></div>
+              <button type="button" id="btn-save-eval" onclick="saveEvaluation()" class="btn" style="width: 100%; margin-top: 10px;">Guardar Valoración</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL DOCENTE -->
+    <div id="view-teacher" class="hidden">
+      <div class="card">
+        <h2 style="font-size: 1.1rem; margin-bottom: 8px;">Panel Docente - Prof. Luis Sánchez Cañizares</h2>
+        <div id="teacher-status-indicator" class="status-banner status-closed" style="margin-top: 8px;">
+          🔴 ESTADO DE VOTACIONES: CERRADAS
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+          <button onclick="copyPodium()" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px;">📋 Copiar Podio</button>
+          <button onclick="exportCSV()" class="btn btn-success" style="font-size: 0.75rem; padding: 8px 12px;">📊 Exportar CSV</button>
+          <button onclick="closeTeacherView()" class="btn btn-danger" style="font-size: 0.75rem; padding: 8px 12px;">Salir</button>
+        </div>
+      </div>
+
+      <div class="card" style="border-color: var(--accent);">
+        <h3 style="font-size: 0.85rem; margin-bottom: 10px; color: var(--accent);">⚙️ Gestión de Votaciones</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 8px;">
+            <button onclick="toggleVoting(true)" class="btn btn-success" style="flex:1;">Abrir Todas</button>
+            <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex:1;">Cerrar Votaciones</button>
+          </div>
+          <div>
+            <label for="select-presenter">Habilitar SOLO al expositor actual:</label>
+            <div style="display: flex; gap: 6px;">
+              <select id="select-presenter" style="margin-bottom:0;">
+                <option value="">-- Seleccionar expositor --</option>
+              </select>
+              <button onclick="setPresenterOnly()" class="btn">Activar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="podium-box" class="podium"></div>
+
+      <div class="card" style="overflow-x: auto;">
+        <h3>Resultados Ordenados por Nota Media</h3>
+        <table>
+          <thead>
+            <tr><th>Pos</th><th>Nº</th><th>Alumno</th><th>Idea</th><th>Votos</th><th>Media</th></tr>
+          </thead>
+          <tbody id="ranking-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL CONTRASEÑA DOCENTE -->
+  <div id="modal-pass" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px;">
+    <div class="card" style="width: 100%; max-width: 320px; text-align: center;">
+      <h3 style="margin-bottom: 10px;">Acceso Profesor</h3>
+      <input type="password" id="pass-input" placeholder="Contraseña">
+      <div style="display: flex; gap: 8px;">
+        <button onclick="closeTeacherModal()" class="btn btn-secondary" style="flex:1;">Cancelar</button>
+        <button onclick="loginTeacher()" class="btn" style="flex:1;">Entrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const initialStudents = [
+      { id: 1, name: "TAGMOUTI ABDOUNE ASSYA", idea: "" },
+      { id: 2, name: "PERÁN SÁEZ ANDRÉS", idea: "" },
+      { id: 3, name: "BEL FATEH BOUKHRIS MONIA", idea: "" },
+      { id: 4, name: "PÉREZ ROSEL PEDRO", idea: "" },
+      { id: 5, name: "MECHKOUR JAGHANI ILYAS", idea: "" },
+      { id: 6, name: "BASTIDA RUIZ DAMIÁN", idea: "" },
+      { id: 7, name: "YASSIMI MOULOUA WIAM EL", idea: "" },
+      { id: 8, name: "ROS SÁNCHEZ RUBÉN", idea: "" },
+      { id: 9, name: "MORENO DÍAZ MÍA GRACIELA", idea: "" },
+      { id: 10, name: "NAVARRO PLAZAS MARÍA", idea: "" },
+      { id: 11, name: "OUFAIRI FARRA HIBA EL", idea: "" },
+      { id: 12, name: "QUINTERO MARÍN KATHERIN", idea: "" },
+      { id: 13, name: "RAHALI SABIR NISRINE", idea: "" },
+      { id: 14, name: "REBOLLO VILAR EUGENIO", idea: "" },
+      { id: 15, name: "SEMMOUDI DAOUD FÁTIMA ZAHRA", idea: "" },
+      { id: 16, name: "TORRES PERIAGO JUAN CARLOS", idea: "" },
+      { id: 17, name: "CISNEROS GAROFALO ANABEL LILIBETH", idea: "" },
+      { id: 18, name: "CJURO RAMOS DIANA KIMBERLY", idea: "" },
+      { id: 19, name: "CORJESCU ANAMARIA VIOLETA", idea: "" },
+      { id: 20, name: "FERNÁNDEZ NAVARRO JAIRO", idea: "" },
+      { id: 21, name: "GONZÁLEZ PERDOMO MAYRA ALEJANDRA", idea: "" },
+      { id: 22, name: "HANNASSI HAMZA EL", idea: "" },
+      { id: 23, name: "HOUARI LAHCEN OSAMA EL", idea: "" },
+      { id: 24, name: "HUSSAIN BEVI SYED KAZIM", idea: "" },
+      { id: 25, name: "JUÁREZ ESCOBAR MARÍA CELESTE", idea: "" },
+      { id: 26, name: "LÓPEZ GARCÍA ÓSCAR", idea: "" },
+      { id: 27, name: "JEMERHILI MEZIANE AAYA", idea: "" },
+      { id: 28, name: "SARIH JAMAKH KAOUTAR", idea: "" },
+      { id: 29, name: "ALUMNO/A NUEVA INCORPORACIÓN", idea: "" }
+    ];
+
+    // Servidor de sincronización en la nube automático
+    const RELAY_URL = "https://kv.valkey.dev/api/v1/store/gef2026_class_state";
+    const TEACHER_PASS = "lsanchezca";
+
+    let state = {
+      students: initialStudents,
+      evaluations: [],
+      settings: { votingOpen: false, activePresenterId: null }
+    };
+
+    let currentStudent = null;
+    let selectedPeerId = null;
+
+    async function pushState() {
+      try {
+        localStorage.setItem('gef_state_backup', JSON.stringify(state));
+        await fetch(RELAY_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(state)
+        });
+      } catch (e) {
+        console.log('Guardando en memoria local');
+      }
+    }
+
+    async function pullState() {
+      try {
+        const res = await fetch(RELAY_URL);
+        if (res.ok) {
+          const remote = await res.json();
+          if (remote && remote.students) {
+            state = remote;
+            localStorage.setItem('gef_state_backup', JSON.stringify(state));
+          }
         }
+      } catch (e) {
+        const backup = localStorage.getItem('gef_state_backup');
+        if (backup) state = JSON.parse(backup);
+      }
+    }
 
-        function confirmExit() {
-            document.getElementById('exit-modal').classList.remove('hidden');
+    window.onload = async function() {
+      await pullState();
+      populateDropdowns();
+      checkAppState();
+      setInterval(async () => {
+        await pullState();
+        refreshCurrentView();
+      }, 2000);
+    };
+
+    function populateDropdowns() {
+      const selectStudent = document.getElementById('select-student');
+      const selectPresenter = document.getElementById('select-presenter');
+
+      selectStudent.innerHTML = '<option value="">-- Selecciona tu nombre --</option>';
+      selectPresenter.innerHTML = '<option value="">-- Todos los alumnos --</option>';
+
+      state.students.forEach(s => {
+        const opt1 = document.createElement('option');
+        opt1.value = s.id;
+        opt1.textContent = `Nº ${s.id} - ${s.name}`;
+        selectStudent.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = s.id;
+        opt2.textContent = `Nº ${s.id} - ${s.name}`;
+        if (state.settings.activePresenterId == s.id) opt2.selected = true;
+        selectPresenter.appendChild(opt2);
+      });
+    }
+
+    function refreshCurrentView() {
+      const activeTeacher = !document.getElementById('view-teacher').classList.contains('hidden');
+      if (activeTeacher) {
+        renderTeacherData();
+        return;
+      }
+      checkAppState();
+    }
+
+    function checkAppState() {
+      const loggedId = sessionStorage.getItem('logged_student_id');
+      if (loggedId) currentStudent = state.students.find(s => s.id == loggedId);
+
+      if (currentStudent) {
+        if (!state.settings.votingOpen) {
+          showView('view-closed');
+        } else {
+          showView('view-eval');
+          renderPeerList();
+          updateBanner();
         }
+      } else {
+        showView('view-login');
+      }
+    }
 
-        function closeModal() {
-            document.getElementById('exit-modal').classList.add('hidden');
+    async function syncAndCheck() {
+      await pullState();
+      checkAppState();
+    }
+
+    function updateBanner() {
+      const banner = document.getElementById('banner-status-box');
+      if (state.settings.activePresenterId) {
+        const p = state.students.find(s => s.id == state.settings.activePresenterId);
+        banner.textContent = `🟡 VOTACIÓN ACTIVA PARA: ${p ? p.name : ''}`;
+      } else {
+        banner.textContent = "🟢 VOTACIONES ABIERTAS";
+      }
+    }
+
+    function showView(viewId) {
+      ['view-login', 'view-closed', 'view-eval', 'view-teacher'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+      document.getElementById(viewId).classList.remove('hidden');
+    }
+
+    function onStudentSelectChange() {
+      const val = document.getElementById('select-student').value;
+      const st = state.students.find(s => s.id == val);
+      const box = document.getElementById('box-idea');
+      if (st && !st.idea) {
+        box.classList.remove('hidden');
+      } else {
+        box.classList.add('hidden');
+      }
+    }
+
+    async function loginStudent() {
+      const val = document.getElementById('select-student').value;
+      if (!val) return alert('Selecciona tu nombre.');
+
+      const st = state.students.find(s => s.id == val);
+      if (!st.idea) {
+        const ideaVal = document.getElementById('input-idea').value.trim();
+        if (!ideaVal) return alert('Escribe el nombre de tu idea de negocio.');
+        st.idea = ideaVal;
+        await pushState();
+      }
+
+      currentStudent = st;
+      sessionStorage.setItem('logged_student_id', currentStudent.id);
+      checkAppState();
+    }
+
+    function logoutStudent() {
+      sessionStorage.removeItem('logged_student_id');
+      currentStudent = null;
+      checkAppState();
+    }
+
+    function renderPeerList() {
+      const container = document.getElementById('peer-container');
+      container.innerHTML = '';
+      let total = 0, done = 0;
+
+      state.students.forEach(peer => {
+        if (peer.id === currentStudent.id) return;
+        const isRestricted = state.settings.activePresenterId && state.settings.activePresenterId != peer.id;
+        const alreadyDone = state.evaluations.some(e => e.evaluatorId === currentStudent.id && e.targetId === peer.id);
+
+        total++;
+        if (alreadyDone) done++;
+
+        const item = document.createElement('div');
+        item.className = `peer-item ${selectedPeerId === peer.id ? 'active' : ''} ${isRestricted ? 'disabled' : ''}`;
+        item.onclick = () => {
+          if (isRestricted) return alert('Votación restringida al expositor actual.');
+          selectPeer(peer.id);
+        };
+
+        item.innerHTML = `
+          <div>
+            <strong style="font-size: 0.75rem; color: var(--accent);">Nº ${peer.id}</strong>
+            <div style="font-size: 0.85rem; font-weight: 600;">${peer.name}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">${peer.idea || 'Sin idea'}</div>
+          </div>
+          <div>${alreadyDone ? '✅' : '⏳'}</div>
+        `;
+        container.appendChild(item);
+      });
+
+      document.getElementById('eval-progress').textContent = `${done}/${total}`;
+    }
+
+    function selectPeer(peerId) {
+      selectedPeerId = peerId;
+      renderPeerList();
+
+      const peer = state.students.find(s => s.id === peerId);
+      document.getElementById('no-peer-selected').classList.add('hidden');
+      document.getElementById('form-container').classList.remove('hidden');
+
+      document.getElementById('target-num').textContent = `Nº ${peer.id}`;
+      document.getElementById('target-name').textContent = peer.name;
+      document.getElementById('target-idea').textContent = peer.idea ? `Idea: "${peer.idea}"` : 'Sin idea';
+
+      const form = document.getElementById('eval-form');
+      form.reset();
+
+      const existing = state.evaluations.find(e => e.evaluatorId === currentStudent.id && e.targetId === peer.id);
+      const btn = document.getElementById('btn-save-eval');
+
+      if (existing) {
+        btn.disabled = true;
+        btn.textContent = "Ya evaluado";
+        btn.className = "btn btn-secondary";
+        for (let i = 1; i <= 6; i++) {
+          const r = form.querySelector(`input[name="q${i}"][value="${existing['q' + i]}"]`);
+          if (r) r.checked = true;
         }
+      } else {
+        btn.disabled = false;
+        btn.textContent = "Guardar Valoración";
+        btn.className = "btn";
+      }
+    }
 
-        function startQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            showSection('quiz-section');
-            loadQuestion();
-        }
+    async function saveEvaluation() {
+      if (!selectedPeerId || !currentStudent) return;
+      const form = document.getElementById('eval-form');
+      const formData = new FormData(form);
 
-        function loadQuestion() {
-            answered = false;
-            const q = quizData[currentQuestion];
-            document.getElementById('question-counter').innerText = `Pregunta ${currentQuestion + 1} de ${quizData.length}`;
-            document.getElementById('progress-bar').style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
-            document.getElementById('question-text').innerText = q.question;
-            
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            q.options.forEach((opt, index) => {
-                const btn = document.createElement('button');
-                btn.className = "p-4 text-left border-2 border-slate-200 rounded-xl hover:bg-slate-50 transition-all font-medium text-sm md:text-base";
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(index, btn);
-                optionsContainer.appendChild(btn);
-            });
+      const q1 = parseInt(formData.get('q1')), q2 = parseInt(formData.get('q2')), q3 = parseInt(formData.get('q3')),
+            q4 = parseInt(formData.get('q4')), q5 = parseInt(formData.get('q5')), q6 = parseInt(formData.get('q6'));
 
-            document.getElementById('next-btn').classList.add('hidden');
-            document.getElementById('feedback-container').classList.add('hidden');
-        }
+      if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) return alert('Puntúa las 6 preguntas.');
 
-        function checkAnswer(index, btn) {
-            if (answered) return;
-            answered = true;
-            
-            const q = quizData[currentQuestion];
-            const feedback = document.getElementById('feedback-container');
-            feedback.classList.remove('hidden');
-            const allButtons = document.getElementById('options-container').children;
+      state.evaluations.push({ evaluatorId: currentStudent.id, targetId: selectedPeerId, q1, q2, q3, q4, q5, q6 });
+      await pushState();
+      alert('¡Valoración enviada!');
+      selectPeer(selectedPeerId);
+    }
 
-            if (index === q.correct) {
-                score++;
-                btn.classList.add('bg-green-100', 'border-green-600', 'text-green-700');
-                feedback.innerText = "¡Correcto! Excelente comprensión.";
-                feedback.className = "mt-8 p-4 rounded-lg text-center font-bold bg-green-50 text-green-700";
-            } else {
-                btn.classList.add('bg-red-100', 'border-red-600', 'text-red-700');
-                if (allButtons[q.correct]) allButtons[q.correct].classList.add('bg-green-50', 'border-green-600');
-                feedback.innerText = `Incorrecto. Pista: ${q.hint}`;
-                feedback.className = "mt-8 p-4 rounded-lg text-center font-bold bg-red-50 text-red-700";
-            }
-            document.getElementById('next-btn').classList.remove('hidden');
-        }
+    function openTeacherModal() {
+      document.getElementById('modal-pass').classList.remove('hidden');
+      document.getElementById('pass-input').value = '';
+    }
 
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < quizData.length) {
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }
+    function closeTeacherModal() {
+      document.getElementById('modal-pass').classList.add('hidden');
+    }
 
-        function showResults() {
-            showSection('results-section');
-            const percent = (score / quizData.length) * 100;
-            const scoreText = document.getElementById('final-score');
-            const emoji = document.getElementById('result-emoji');
-            
-            let msg = "";
-            if(percent === 100) { msg = "¡Nivel Experto!\nHas dominado por completo el estándar ISO 20022."; emoji.innerText = "🌟"; }
-            else if(percent >= 70) { msg = "¡Muy bien hecho!\nTienes una visión clara del futuro de los pagos."; emoji.innerText = "🥈"; }
-            else { msg = "Buen intento.\nTe recomiendo repasar el Centro de Estudio para afianzar conceptos."; emoji.innerText = "📚"; }
-            
-            if (scoreText) scoreText.innerText = `Aciertos: ${score} de ${quizData.length}\n\n${msg}`;
-        }
-    </script>
+    function loginTeacher() {
+      if (document.getElementById('pass-input').value === TEACHER_PASS) {
+        closeTeacherModal();
+        showTeacherDashboard();
+      } else {
+        alert('Contraseña incorrecta.');
+      }
+    }
+
+    function showTeacherDashboard() {
+      showView('view-teacher');
+      renderTeacherData();
+    }
+
+    function closeTeacherView() {
+      checkAppState();
+    }
+
+    async function toggleVoting(isOpen) {
+      state.settings.votingOpen = isOpen;
+      state.settings.activePresenterId = null;
+      await pushState();
+      renderTeacherData();
+      alert(`Votaciones ${isOpen ? 'ABIERTAS' : 'CERRADAS'}`);
+    }
+
+    async function setPresenterOnly() {
+      const val = document.getElementById('select-presenter').value;
+      state.settings.votingOpen = true;
+      state.settings.activePresenterId = val ? parseInt(val) : null;
+      await pushState();
+      renderTeacherData();
+      alert(val ? 'Votación abierta solo para el expositor seleccionado.' : 'Votaciones abiertas para todos.');
+    }
+
+    function getStats() {
+      return state.students.map(s => {
+        const list = state.evaluations.filter(e => e.targetId === s.id);
+        const count = list.length;
+        if (count === 0) return { ...s, voteCount: 0, avgTotal: 0 };
+
+        const sum = list.reduce((a, b) => a + b.q1 + b.q2 + b.q3 + b.q4 + b.q5 + b.q6, 0);
+        return { ...s, voteCount: count, avgTotal: sum / (count * 6) };
+      }).sort((a, b) => b.avgTotal - a.avgTotal);
+    }
+
+    function renderTeacherData() {
+      const indicator = document.getElementById('teacher-status-indicator');
+      if (!state.settings.votingOpen) {
+        indicator.textContent = "🔴 ESTADO: VOTACIONES CERRADAS";
+        indicator.className = "status-banner status-closed";
+      } else if (state.settings.activePresenterId) {
+        const p = state.students.find(s => s.id == state.settings.activePresenterId);
+        indicator.textContent = `🟡 VOTACIÓN SOLO PARA: ${p ? p.name : ''}`;
+        indicator.className = "status-banner status-open";
+      } else {
+        indicator.textContent = "🟢 ESTADO: VOTACIONES ABIERTAS (TODOS)";
+        indicator.className = "status-banner status-open";
+      }
+
+      const stats = getStats();
+      const podium = document.getElementById('podium-box');
+      podium.innerHTML = '';
+      
+      const top3 = [
+        { rank: '2º Puesto', data: stats[1], class: 'podium-2' },
+        { rank: '🥇 1º Puesto', data: stats[0], class: 'podium-1' },
+        { rank: '3º Puesto', data: stats[2], class: 'podium-3' }
+      ];
+
+      top3.forEach(p => {
+        if (!p.data) return;
+        const div = document.createElement('div');
+        div.className = `podium-card ${p.class}`;
+        div.innerHTML = `
+          <strong>${p.rank}</strong>
+          <div style="font-weight:bold; margin:4px 0;">${p.data.name}</div>
+          <div style="font-size:1.2rem; font-weight:900; color:var(--accent);">${p.data.avgTotal.toFixed(2)}</div>
+        `;
+        podium.appendChild(div);
+      });
+
+      const tbody = document.getElementById('ranking-body');
+      tbody.innerHTML = '';
+      stats.forEach((st, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${idx + 1}º</strong></td>
+          <td>Nº ${st.id}</td>
+          <td>${st.name}</td>
+          <td>${st.idea || '-'}</td>
+          <td>${st.voteCount}</td>
+          <td><strong style="color:var(--accent);">${st.avgTotal.toFixed(2)}</strong></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function copyPodium() {
+      const stats = getStats();
+      if (stats.length < 3) return alert('Insuficientes datos.');
+      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º: ${stats[0].name} - ${stats[0].avgTotal.toFixed(2)}\n🥈 2º: ${stats[1].name} - ${stats[1].avgTotal.toFixed(2)}\n🥉 3º: ${stats[2].name} - ${stats[2].avgTotal.toFixed(2)}`;
+      navigator.clipboard.writeText(text).then(() => alert('Podio copiado al portapapeles.'));
+    }
+
+    function exportCSV() {
+      const stats = getStats();
+      let csv = 'Posicion,Num,Alumno,Idea,Votos,MediaTotal\n';
+      stats.forEach((st, idx) => {
+        csv += `${idx + 1},${st.id},"${st.name}","${st.idea || ''}",${st.voteCount},${st.avgTotal.toFixed(2)}\n`;
+      });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'valoraciones_2026.csv';
+      a.click();
+    }
+  </script>
 </body>
 </html>
