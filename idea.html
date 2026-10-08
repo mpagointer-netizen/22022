@@ -2,510 +2,148 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026</title>
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Valoración Idea de Negocio 2026</title>
   <style>
     :root {
-      --bg-dark: #0f172a;
+      --bg-main: #0f172a;
       --bg-card: #1e293b;
-      --bg-card-hover: #334155;
-      --bg-input: #0b1329;
-      --accent-gold: #f59e0b;
-      --accent-gold-hover: #d97706;
-      --border-color: #334155;
+      --bg-input: #0f172a;
+      --border: #334155;
+      --accent: #f59e0b;
+      --accent-hover: #d97706;
       --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --status-green: #10b981;
-      --status-red: #ef4444;
-      --status-yellow: #f59e0b;
-      --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+      --success: #10b981;
+      --danger: #ef4444;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; -webkit-tap-highlight-color: transparent; }
+    
+    header { background-color: var(--bg-card); border-bottom: 1px solid var(--border); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+    header h1 { color: var(--accent); font-size: 0.95rem; font-weight: 800; text-transform: uppercase; line-height: 1.2; }
+    header p { color: var(--text-muted); font-size: 0.8rem; font-weight: 500; }
+    
+    .btn { background: var(--accent); color: #000; border: none; padding: 12px 18px; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 0.9rem; transition: 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn:active { transform: scale(0.98); }
+    .btn-secondary { background: var(--border); color: var(--text-main); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; }
+    
+    main { max-width: 1100px; width: 100%; margin: 0 auto; padding: 12px; flex-grow: 1; }
+    
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+    .hidden { display: none !important; }
+    
+    label { display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+    select, input[type="text"], input[type="password"] { width: 100%; padding: 12px; background: var(--bg-input); border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); font-size: 0.95rem; margin-bottom: 14px; -webkit-appearance: none; }
+    select:focus, input:focus { outline: none; border-color: var(--accent); }
 
-    body {
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+    .peer-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 768px) { .peer-grid { grid-template-columns: 1fr 2fr; } }
+    
+    .peer-list { max-height: 380px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; -webkit-overflow-scrolling: touch; }
+    .peer-item { padding: 12px; background: rgba(15,23,42,0.6); border: 1px solid var(--border); border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+    .peer-item.active { border-color: var(--accent); background: rgba(245,158,11,0.15); }
+    .peer-item.disabled { opacity: 0.4; cursor: not-allowed; }
 
-    header {
-      background-color: var(--bg-card);
-      border-bottom: 1px solid var(--border-color);
-      padding: 16px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    }
+    .q-box { background: rgba(15,23,42,0.5); padding: 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 12px; }
+    .q-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+    .scale-options { display: flex; gap: 6px; }
+    .scale-options label { flex: 1; text-align: center; margin: 0; }
+    .scale-options input { display: none; }
+    .scale-options span { display: block; padding: 12px 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: 6px; font-weight: bold; color: var(--text-main); cursor: pointer; font-size: 1rem; }
+    .scale-options input:checked + span { background: var(--accent); color: #000; border-color: var(--accent); }
 
-    .header-title h1 {
-      color: var(--accent-gold);
-      font-size: 1.1rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
+    .status-banner { font-size: 0.85rem; font-weight: 700; padding: 12px; border-radius: 8px; text-align: center; margin-bottom: 12px; }
+    .status-open { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+    .status-closed { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
 
-    .header-title p {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      font-weight: 500;
-      margin-top: 2px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .badge-user {
-      background: rgba(245, 158, 11, 0.15);
-      border: 1px solid var(--accent-gold);
-      color: var(--accent-gold);
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .btn {
-      background: var(--accent-gold);
-      color: #0f172a;
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .btn:hover {
-      background: var(--accent-gold-hover);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      background: var(--border-color);
-      color: var(--text-main);
-    }
-
-    .btn-secondary:hover {
-      background: #475569;
-    }
-
-    .btn-danger {
-      background: var(--status-red);
-      color: #ffffff;
-    }
-
-    .btn-danger:hover {
-      background: #dc2626;
-    }
-
-    .btn-success {
-      background: var(--status-green);
-      color: #ffffff;
-    }
-
-    .btn-success:hover {
-      background: #059669;
-    }
-
-    main {
-      max-width: 1100px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 24px 16px;
-      flex-grow: 1;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: var(--shadow-lg);
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    label {
-      display: block;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-      letter-spacing: 0.5px;
-    }
-
-    select, input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 12px 14px;
-      background: var(--bg-input);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      color: var(--text-main);
-      font-size: 0.95rem;
-      margin-bottom: 18px;
-      transition: border-color 0.2s;
-    }
-
-    select:focus, input:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-    }
-
-    /* Teacher Live Status Indicator Banner */
-    .status-banner-large {
-      padding: 16px;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 800;
-      text-align: center;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
-    }
-
-    .status-banner-closed {
-      background: rgba(239, 68, 68, 0.2);
-      border: 2px solid var(--status-red);
-      color: #f87171;
-    }
-
-    .status-banner-open {
-      background: rgba(16, 185, 129, 0.2);
-      border: 2px solid var(--status-green);
-      color: #34d399;
-    }
-
-    .status-banner-single {
-      background: rgba(245, 158, 11, 0.2);
-      border: 2px solid var(--accent-gold);
-      color: #fbbf24;
-    }
-
-    .eval-grid {
-      display: grid;
-      grid-template-columns: 320px 1fr;
-      gap: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .eval-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .peer-list {
-      max-height: 520px;
-      overflow-y: auto;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding-right: 4px;
-    }
-
-    .peer-list::-webkit-scrollbar {
-      width: 6px;
-    }
-    .peer-list::-webkit-scrollbar-thumb {
-      background: var(--border-color);
-      border-radius: 4px;
-    }
-
-    .peer-item {
-      padding: 12px 16px;
-      background: rgba(15, 23, 42, 0.6);
-      border: 1px solid var(--border-color);
-      border-radius: 10px;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: all 0.2s;
-    }
-
-    .peer-item:hover {
-      border-color: var(--accent-gold);
-      background: rgba(245, 158, 11, 0.08);
-    }
-
-    .peer-item.active {
-      border-color: var(--accent-gold);
-      background: rgba(245, 158, 11, 0.18);
-    }
-
-    .peer-item.disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    .badge-success {
-      background: rgba(16, 185, 129, 0.2);
-      color: var(--status-green);
-    }
-
-    .badge-pending {
-      background: rgba(148, 163, 184, 0.2);
-      color: var(--text-muted);
-    }
-
-    .q-box {
-      background: rgba(15, 23, 42, 0.5);
-      padding: 16px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      margin-bottom: 14px;
-    }
-
-    .q-title {
-      font-size: 0.92rem;
-      font-weight: 600;
-      margin-bottom: 12px;
-      color: #e2e8f0;
-      line-height: 1.4;
-    }
-
-    .scale-options {
-      display: flex;
-      gap: 10px;
-    }
-
-    .scale-options label {
-      flex: 1;
-      text-align: center;
-      margin: 0;
-      cursor: pointer;
-    }
-
-    .scale-options input {
-      display: none;
-    }
-
-    .scale-options span {
-      display: block;
-      padding: 10px 0;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      font-weight: 700;
-      color: var(--text-main);
-      transition: all 0.2s;
-    }
-
-    .scale-options input:checked + span {
-      background: var(--accent-gold);
-      color: #0f172a;
-      border-color: var(--accent-gold);
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
-    }
-
-    .podium {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin: 24px 0;
-      align-items: flex-end;
-    }
-
-    @media (max-width: 600px) {
-      .podium {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .podium-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 20px 14px;
-      text-align: center;
-      position: relative;
-    }
-
-    .podium-1 {
-      order: 2;
-      border-color: var(--accent-gold);
-      background: radial-gradient(circle at top, rgba(245, 158, 11, 0.15), var(--bg-card));
-    }
+    .podium { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0; align-items: flex-end; }
+    .podium-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; text-align: center; font-size: 0.8rem; }
+    .podium-1 { order: 2; border-color: var(--accent); }
     .podium-2 { order: 1; }
     .podium-3 { order: 3; }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      font-size: 0.85rem;
-    }
-
-    th, td {
-      padding: 12px 10px;
-      text-align: left;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    th {
-      background: #0b1329;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      letter-spacing: 0.5px;
-    }
-
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.82);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 999;
-    }
-
-    .modal-box {
-      width: 360px;
-      max-width: 90%;
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      padding: 24px;
-      box-shadow: var(--shadow-lg);
-    }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.8rem; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { background: #0f172a; color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem; }
   </style>
 </head>
 <body>
 
   <header>
-    <div class="header-title">
-      <h1>VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026</h1>
+    <div>
+      <h1>VALORACIÓN IDEA DE NEGOCIO GEF 2026</h1>
       <p>Profesor Luis Sánchez Cañizares</p>
     </div>
-    <div class="user-info">
-      <div id="user-badge" class="badge-user hidden">
-        👤 <span id="user-badge-name"></span>
-      </div>
-      <button onclick="openTeacherModal()" class="btn btn-secondary" style="font-size: 0.85rem;">
-        🔒 Acceso Docente
-      </button>
+    <div>
+      <button onclick="openTeacherModal()" class="btn btn-secondary" style="font-size: 0.75rem; padding: 6px 10px;">Acceso Docente</button>
     </div>
   </header>
 
   <main>
-    <!-- View 1: Student Selection Login -->
-    <div id="view-login" class="card" style="max-width: 480px; margin: 30px auto;">
-      <h2 style="margin-bottom: 6px; text-align: center;">Identificación de Alumno</h2>
-      <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-bottom: 22px;">
-        Selecciona tu nombre en la lista para acceder.
-      </p>
+
+    <!-- IDENTIFICACIÓN -->
+    <div id="view-login" class="card" style="max-width: 440px; margin: 20px auto;">
+      <h2 style="margin-bottom: 6px; text-align: center; font-size: 1.2rem;">Identificación de Alumno</h2>
+      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Selecciona tu nombre de la lista para acceder:</p>
 
       <label for="select-student">Tu Nombre:</label>
       <select id="select-student" onchange="onStudentSelectChange()">
-        <!-- Populated dynamically -->
+        <option value="">-- Cargando Lista de Alumnos... --</option>
       </select>
 
       <div id="box-idea" class="hidden">
         <label for="input-idea">Nombre de tu Idea de Negocio:</label>
-        <input type="text" id="input-idea" placeholder="Ej: Servicio de Consultoría Financiera Sostenible">
-        <p style="color: var(--accent-gold); font-size: 0.78rem; margin-top: -12px; margin-bottom: 16px;">
-          ℹ️ Registra el título de tu proyecto para que tus compañeros puedan evaluarlo.
+        <input type="text" id="input-idea" placeholder="Ej: Proyecto Empresarial">
+        <p style="color: var(--accent); font-size: 0.75rem; margin-top: -8px; margin-bottom: 12px;">
+          ℹ️ Primera vez accediendo: escribe tu idea.
         </p>
       </div>
 
-      <button onclick="loginStudent()" class="btn" style="width: 100%;">Ingresar al Sistema</button>
+      <button onclick="loginStudent()" class="btn" style="width: 100%;">Entrar a Evaluar</button>
     </div>
 
-    <!-- View 2: Voting Closed Screen -->
-    <div id="view-closed" class="card hidden" style="max-width: 520px; margin: 30px auto; text-align: center; padding: 36px 24px;">
-      <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
-      <h2 style="font-size: 1.4rem; margin-bottom: 10px; color: var(--status-red);">Votaciones Cerradas</h2>
-      <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; margin-bottom: 24px;">
-        El profesor <strong>Luis Sánchez Cañizares</strong> no ha abierto la votación en este momento.<br>
-        Por favor, atiende a la presentación en curso.
+    <!-- PANTALLA DE VOTACIÓN CERRADA -->
+    <div id="view-closed" class="card hidden" style="max-width: 440px; margin: 20px auto; text-align: center;">
+      <div style="font-size: 2.5rem; margin-bottom: 8px;">🔒</div>
+      <h2 style="font-size: 1.1rem;">Votaciones Cerradas Temporalmente</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; margin: 12px 0;">
+        El profesor <strong>Luis Sánchez Cañizares</strong> aún no ha abierto la votación para esta presentación.
       </p>
-
-      <button onclick="checkAppState()" class="btn btn-secondary">
-        🔄 Comprobar Estado de Votación
-      </button>
-
-      <div style="margin-top: 20px;">
-        <button onclick="logoutStudent()" style="background: none; border: none; color: var(--text-muted); text-decoration: underline; cursor: pointer; font-size: 0.82rem;">
-          Cambiar de usuario
-        </button>
+      <button onclick="checkAppState()" class="btn btn-secondary" style="width: 100%;">🔄 Actualizar Estado</button>
+      <div style="margin-top: 12px;">
+        <button onclick="logoutStudent()" style="background:none; border:none; color:var(--text-muted); text-decoration:underline; cursor:pointer; font-size:0.8rem;">Cambiar de alumno</button>
       </div>
     </div>
 
-    <!-- View 3: Peer Evaluation View -->
+    <!-- CUESTIONARIO Y VALORACIÓN -->
     <div id="view-eval" class="hidden">
-      <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; margin-bottom: 16px;">
-        <span style="font-weight: 700; color: var(--status-green); font-size: 0.9rem;" id="banner-status">
-          🟢 Votaciones Abiertas
-        </span>
-        <div style="display: flex; gap: 10px;">
-          <button onclick="checkAppState()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
-            🔄 Actualizar
-          </button>
-          <button onclick="logoutStudent()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 14px;">
-            Cerrar Sesión
-          </button>
-        </div>
+      <div id="banner-status-box" class="status-banner status-open">
+        🟢 VOTACIONES ABIERTAS
       </div>
 
-      <div class="eval-grid">
-        <!-- Student List Column -->
-        <div class="card" style="padding: 18px;">
-          <h3 style="font-size: 0.9rem; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center;">
+      <div class="peer-grid">
+        <div class="card">
+          <h3 style="font-size: 0.85rem; margin-bottom: 10px; display: flex; justify-content: space-between;">
             <span>Compañeros</span>
-            <span id="eval-progress" style="color: var(--accent-gold); font-weight: 800;">0/0</span>
+            <span id="eval-progress" style="color: var(--accent);">0/0</span>
           </h3>
           <div id="peer-container" class="peer-list"></div>
         </div>
 
-        <!-- Question Form Column -->
-        <div class="card" style="padding: 20px;">
-          <div id="no-peer-selected" style="text-align: center; color: var(--text-muted); padding: 60px 0;">
-            👈 Selecciona un compañero de la lista para proceder a evaluarlo.
+        <div class="card">
+          <div id="no-peer-selected" style="text-align: center; color: var(--text-muted); padding: 30px 0; font-size: 0.85rem;">
+            👈 Pulsa en un compañero de la lista para calificar su idea.
           </div>
 
           <div id="form-container" class="hidden">
-            <div style="border-bottom: 1px solid var(--border-color); padding-bottom: 14px; margin-bottom: 18px;">
-              <span id="target-num" style="background: rgba(245, 158, 11, 0.2); color: var(--accent-gold); padding: 2px 8px; border-radius: 4px; font-size: 0.78rem; font-weight: 800;"></span>
-              <h2 id="target-name" style="margin-top: 6px; font-size: 1.25rem;"></h2>
-              <p id="target-idea" style="color: var(--accent-gold); font-weight: 600; font-size: 0.92rem; margin-top: 2px;"></p>
+            <div style="border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 14px;">
+              <span id="target-num" style="background: rgba(245,158,11,0.2); color: var(--accent); padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;"></span>
+              <h2 id="target-name" style="margin-top: 4px; font-size: 1.1rem;"></h2>
+              <p id="target-idea" style="color: var(--accent); font-size: 0.85rem;"></p>
             </div>
 
             <form id="eval-form">
@@ -521,7 +159,7 @@
               </div>
 
               <div class="q-box">
-                <div class="q-title">2. ¿La idea es suficientemente buena en sí misma? ¿Está orientada al mercado?</div>
+                <div class="q-title">2. ¿La idea es buena y orientada al mercado?</div>
                 <div class="scale-options">
                   <label><input type="radio" name="q2" value="1" required><span>1</span></label>
                   <label><input type="radio" name="q2" value="2"><span>2</span></label>
@@ -543,7 +181,7 @@
               </div>
 
               <div class="q-box">
-                <div class="q-title">4. ¿Poseemos un conocimiento técnico suficiente del sector?</div>
+                <div class="q-title">4. ¿Conocimiento técnico suficiente del sector?</div>
                 <div class="scale-options">
                   <label><input type="radio" name="q4" value="1" required><span>1</span></label>
                   <label><input type="radio" name="q4" value="2"><span>2</span></label>
@@ -554,7 +192,7 @@
               </div>
 
               <div class="q-box">
-                <div class="q-title">5. ¿Es fácil de llevar a la práctica esta idea?</div>
+                <div class="q-title">5. ¿Es fácil de llevar a la práctica?</div>
                 <div class="scale-options">
                   <label><input type="radio" name="q5" value="1" required><span>1</span></label>
                   <label><input type="radio" name="q5" value="2"><span>2</span></label>
@@ -575,120 +213,83 @@
                 </div>
               </div>
 
-              <button type="button" id="btn-save-eval" onclick="saveEvaluation()" class="btn" style="width: 100%; margin-top: 8px; padding: 12px;">
-                Guardar Valoración
-              </button>
+              <button type="button" id="btn-save-eval" onclick="saveEvaluation()" class="btn" style="width: 100%; margin-top: 10px;">Guardar Valoración</button>
             </form>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- View 4: Teacher Dashboard View -->
+    <!-- PANEL PROFESOR -->
     <div id="view-teacher" class="hidden">
-      <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-        <div>
-          <h2 style="font-size: 1.25rem;">Panel Docente de Gestión</h2>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Profesor Luis Sánchez Cañizares</p>
+      <div class="card">
+        <h2 style="font-size: 1.1rem; margin-bottom: 8px;">Panel Docente - Prof. Luis Sánchez Cañizares</h2>
+        
+        <div id="teacher-status-indicator" class="status-banner status-closed" style="margin-top: 8px;">
+          🔴 ESTADO DE VOTACIONES: CERRADAS
         </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          <button onclick="copyPodium()" class="btn btn-secondary" style="font-size: 0.85rem;">
-            📋 Copiar Podio
-          </button>
-          <button onclick="exportCSV()" class="btn btn-success" style="font-size: 0.85rem;">
-            📊 Exportar Excel/CSV
-          </button>
-          <button onclick="closeTeacherView()" class="btn btn-danger" style="font-size: 0.85rem;">
-            Salir Panel
-          </button>
+
+        <div style="display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;">
+          <button onclick="copyPodium()" class="btn btn-secondary" style="font-size: 0.75rem; padding: 8px 12px;">📋 Copiar Podio</button>
+          <button onclick="exportCSV()" class="btn btn-success" style="font-size: 0.75rem; padding: 8px 12px;">📊 Exportar CSV</button>
+          <button onclick="closeTeacherView()" class="btn btn-danger" style="font-size: 0.75rem; padding: 8px 12px;">Salir</button>
         </div>
       </div>
 
-      <!-- Controls & Status Panel -->
-      <div class="card" style="border-color: var(--accent-gold);">
-        <h3 style="font-size: 0.95rem; margin-bottom: 14px; color: var(--accent-gold);">
-          ⚙️ Control de Votaciones en Directo
-        </h3>
-
-        <!-- Prominent Teacher Voting Status Indicator Badge -->
-        <div id="teacher-status-banner" class="status-banner-large status-banner-closed">
-          🔴 VOTACIONES CERRADAS
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; align-items: center;">
-          <div>
-            <label>Acciones Globales:</label>
-            <div style="display: flex; gap: 10px;">
-              <button onclick="toggleVoting(true)" class="btn btn-success" style="flex: 1;">
-                🟢 Abrir Votación General
-              </button>
-              <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex: 1;">
-                🔴 Cerrar Votación
-              </button>
-            </div>
+      <div class="card" style="border-color: var(--accent);">
+        <h3 style="font-size: 0.85rem; margin-bottom: 10px; color: var(--accent);">⚙️ Gestión de Votaciones</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 8px;">
+            <button onclick="toggleVoting(true)" class="btn btn-success" style="flex:1;">Abrir Todas</button>
+            <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex:1;">Cerrar Votaciones</button>
           </div>
-
           <div>
             <label for="select-presenter">Habilitar SOLO al expositor actual:</label>
-            <div style="display: flex; gap: 8px;">
-              <select id="select-presenter" style="margin-bottom: 0;">
-                <!-- Populated dynamically -->
+            <div style="display: flex; gap: 6px;">
+              <select id="select-presenter" style="margin-bottom:0;">
+                <option value="">-- Seleccionar expositor --</option>
               </select>
-              <button onclick="setPresenterOnly()" class="btn btn-secondary" style="background: var(--accent-gold); color: #000;">
-                🟡 Activar Solo
-              </button>
+              <button onclick="setPresenterOnly()" class="btn">Activar</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Podium Banner -->
-      <h3 style="text-align: center; margin-top: 28px; text-transform: uppercase; color: var(--text-muted); font-size: 0.85rem; letter-spacing: 1px;">
-        🏆 Podio de Honor
-      </h3>
       <div id="podium-box" class="podium"></div>
 
-      <!-- Full Score Table -->
       <div class="card" style="overflow-x: auto;">
-        <h3 style="margin-bottom: 12px; font-size: 1rem;">Clasificación Completa (Medias Aritméticas)</h3>
+        <h3>Resultados Ordenados por Nota Media</h3>
         <table>
           <thead>
             <tr>
               <th>Pos</th>
               <th>Nº</th>
               <th>Alumno</th>
-              <th>Idea de Negocio</th>
+              <th>Idea</th>
               <th>Votos</th>
-              <th>Media Total</th>
-              <th>Q1</th>
-              <th>Q2</th>
-              <th>Q3</th>
-              <th>Q4</th>
-              <th>Q5</th>
-              <th>Q6</th>
+              <th>Media</th>
             </tr>
           </thead>
           <tbody id="ranking-body"></tbody>
         </table>
       </div>
     </div>
+
   </main>
 
-  <!-- Teacher Password Modal -->
-  <div id="modal-pass" class="modal-overlay hidden">
-    <div class="modal-box">
-      <h3 style="margin-bottom: 6px; text-align: center;">Acceso Docente</h3>
-      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Introduzca su contraseña de profesor:</p>
-      <input type="password" id="pass-input" placeholder="••••••••" onkeyup="if(event.key==='Enter') loginTeacher()">
-      <div style="display: flex; gap: 10px;">
-        <button onclick="closeTeacherModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
-        <button onclick="loginTeacher()" class="btn" style="flex: 1;">Entrar</button>
+  <!-- MODAL CONTRASEÑA -->
+  <div id="modal-pass" class="hidden" style="position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 16px;">
+    <div class="card" style="width: 100%; max-width: 320px; text-align: center;">
+      <h3 style="margin-bottom: 10px;">Acceso Profesor</h3>
+      <input type="password" id="pass-input" placeholder="Contraseña">
+      <div style="display: flex; gap: 8px;">
+        <button onclick="closeTeacherModal()" class="btn btn-secondary" style="flex:1;">Cancelar</button>
+        <button onclick="loginTeacher()" class="btn" style="flex:1;">Entrar</button>
       </div>
     </div>
   </div>
 
   <script>
-    // PRELOADED LIST OF 29 STUDENTS
     const initialStudents = [
       { id: 1, name: "TAGMOUTI ABDOUNE ASSYA", idea: "" },
       { id: 2, name: "PERÁN SÁEZ ANDRÉS", idea: "" },
@@ -721,55 +322,42 @@
       { id: 29, name: "ALUMNO/A NUEVA INCORPORACIÓN", idea: "" }
     ];
 
-    // ROBUST STORAGE HELPER WITH GOOGLE SITES IFRAME FALLBACK
-    const Storage = {
-      get: function(key) {
-        try {
-          const item = localStorage.getItem(key);
-          return item ? JSON.parse(item) : null;
-        } catch (e) {
-          console.warn('Storage read error (likely iframe sandbox):', e);
-          return window['mem_' + key] || null;
-        }
-      },
-      set: function(key, val) {
-        try {
-          localStorage.setItem(key, JSON.stringify(val));
-        } catch (e) {
-          console.warn('Storage write error (likely iframe sandbox):', e);
-        }
-        window['mem_' + key] = val;
+    // Almacenamiento con protección contra bloqueos de iframe móvil
+    function getStored(key, fallback) {
+      try {
+        const val = localStorage.getItem(key);
+        return val ? JSON.parse(val) : fallback;
+      } catch (e) {
+        return window['temp_' + key] || fallback;
       }
-    };
+    }
 
-    // STATE INITIALIZATION
-    let students = Storage.get('ge_students_2026') || initialStudents;
-    let evaluations = Storage.get('ge_evaluations_2026') || [];
-    let settings = Storage.get('ge_settings_2026') || { votingOpen: false, activePresenterId: null };
+    function setStored(key, val) {
+      try {
+        localStorage.setItem(key, JSON.stringify(val));
+      } catch (e) {
+        window['temp_' + key] = val;
+      }
+    }
+
+    let students = getStored('ge_students', initialStudents);
+    let evaluations = getStored('ge_evaluations', []);
+    let settings = getStored('ge_settings', { votingOpen: false, activePresenterId: null });
 
     let currentStudent = null;
     let selectedPeerId = null;
     const TEACHER_PASS = "lsanchezca";
 
     window.onload = function() {
-      saveData();
       populateDropdowns();
       checkAppState();
-      
-      // Auto-refresh state every 3 seconds for students to sync smoothly with teacher actions in iframe
-      setInterval(() => {
-        const freshSettings = Storage.get('ge_settings_2026');
-        if (freshSettings && JSON.stringify(freshSettings) !== JSON.stringify(settings)) {
-          settings = freshSettings;
-          checkAppState();
-        }
-      }, 3000);
+      setInterval(syncState, 2500); // Sincronización automática periódica
     };
 
-    function saveData() {
-      Storage.set('ge_students_2026', students);
-      Storage.set('ge_evaluations_2026', evaluations);
-      Storage.set('ge_settings_2026', settings);
+    function syncState() {
+      settings = getStored('ge_settings', settings);
+      evaluations = getStored('ge_evaluations', evaluations);
+      students = getStored('ge_students', students);
     }
 
     function populateDropdowns() {
@@ -777,7 +365,7 @@
       const selectPresenter = document.getElementById('select-presenter');
 
       selectStudent.innerHTML = '<option value="">-- Selecciona tu nombre --</option>';
-      selectPresenter.innerHTML = '<option value="">-- Ninguno (Todos cerrados) --</option>';
+      selectPresenter.innerHTML = '<option value="">-- Todos los alumnos --</option>';
 
       students.forEach(s => {
         const opt1 = document.createElement('option');
@@ -797,7 +385,6 @@
       const val = document.getElementById('select-student').value;
       const st = students.find(s => s.id == val);
       const box = document.getElementById('box-idea');
-      
       if (st && !st.idea) {
         box.classList.remove('hidden');
       } else {
@@ -806,28 +393,30 @@
     }
 
     function checkAppState() {
-      // Reload fresh settings
-      const freshSettings = Storage.get('ge_settings_2026');
-      if (freshSettings) settings = freshSettings;
-
-      const loggedId = sessionStorage.getItem('logged_student_id_2026');
-      if (loggedId) {
-        currentStudent = students.find(s => s.id == loggedId);
-      }
+      syncState();
+      const loggedId = sessionStorage.getItem('logged_student_id');
+      if (loggedId) currentStudent = students.find(s => s.id == loggedId);
 
       if (currentStudent) {
-        document.getElementById('user-badge-name').textContent = currentStudent.name;
-        document.getElementById('user-badge').classList.remove('hidden');
-
         if (!settings.votingOpen) {
           showView('view-closed');
         } else {
           showView('view-eval');
           renderPeerList();
+          updateBanner();
         }
       } else {
         showView('view-login');
-        document.getElementById('user-badge').classList.add('hidden');
+      }
+    }
+
+    function updateBanner() {
+      const banner = document.getElementById('banner-status-box');
+      if (settings.activePresenterId) {
+        const p = students.find(s => s.id == settings.activePresenterId);
+        banner.textContent = `🟡 VOTACIÓN ACTIVA PARA: ${p ? p.name : ''}`;
+      } else {
+        banner.textContent = "🟢 VOTACIONES ABIERTAS";
       }
     }
 
@@ -845,18 +434,18 @@
       const st = students.find(s => s.id == val);
       if (!st.idea) {
         const ideaVal = document.getElementById('input-idea').value.trim();
-        if (!ideaVal) return alert('Por favor, indica el nombre de tu idea de negocio.');
+        if (!ideaVal) return alert('Ingresa el nombre de tu idea de negocio.');
         st.idea = ideaVal;
-        saveData();
+        setStored('ge_students', students);
       }
 
       currentStudent = st;
-      sessionStorage.setItem('logged_student_id_2026', currentStudent.id);
+      sessionStorage.setItem('logged_student_id', currentStudent.id);
       checkAppState();
     }
 
     function logoutStudent() {
-      sessionStorage.removeItem('logged_student_id_2026');
+      sessionStorage.removeItem('logged_student_id');
       currentStudent = null;
       checkAppState();
     }
@@ -864,14 +453,10 @@
     function renderPeerList() {
       const container = document.getElementById('peer-container');
       container.innerHTML = '';
-
-      let total = 0;
-      let done = 0;
+      let total = 0, done = 0;
 
       students.forEach(peer => {
-        // Block self-evaluation
         if (peer.id === currentStudent.id) return;
-
         const isRestricted = settings.activePresenterId && settings.activePresenterId != peer.id;
         const alreadyDone = evaluations.some(e => e.evaluatorId === currentStudent.id && e.targetId === peer.id);
 
@@ -880,23 +465,19 @@
 
         const item = document.createElement('div');
         item.className = `peer-item ${selectedPeerId === peer.id ? 'active' : ''} ${isRestricted ? 'disabled' : ''}`;
-        
         item.onclick = () => {
-          if (isRestricted) {
-            const presenter = students.find(s => s.id == settings.activePresenterId);
-            return alert(`El profesor ha habilitado la votación únicamente para el expositor actual: ${presenter ? presenter.name : 'Expositor'}`);
-          }
+          if (isRestricted) return alert('La votación está habilitada solo para el expositor actual.');
           selectPeer(peer.id);
         };
 
         item.innerHTML = `
           <div>
-            <strong style="font-size: 0.8rem; color: var(--accent-gold);">Nº ${peer.id}</strong>
+            <strong style="font-size: 0.75rem; color: var(--accent);">Nº ${peer.id}</strong>
             <div style="font-size: 0.85rem; font-weight: 600;">${peer.name}</div>
-            <div style="font-size: 0.75rem; color: var(--text-muted); font-style: italic;">${peer.idea || 'Sin idea registrada'}</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">${peer.idea || 'Sin idea'}</div>
           </div>
           <div>
-            ${alreadyDone ? '<span class="status-badge badge-success">Evaluado</span>' : '<span class="status-badge badge-pending">Pendiente</span>'}
+            ${alreadyDone ? '✅' : '⏳'}
           </div>
         `;
         container.appendChild(item);
@@ -915,7 +496,7 @@
 
       document.getElementById('target-num').textContent = `Nº ${peer.id}`;
       document.getElementById('target-name').textContent = peer.name;
-      document.getElementById('target-idea').textContent = peer.idea ? `Idea: "${peer.idea}"` : 'Sin idea registrada';
+      document.getElementById('target-idea').textContent = peer.idea ? `Idea: "${peer.idea}"` : 'Sin idea indicada';
 
       const form = document.getElementById('eval-form');
       form.reset();
@@ -925,7 +506,7 @@
 
       if (existing) {
         btn.disabled = true;
-        btn.textContent = "Ya has valorado a este compañero/a";
+        btn.textContent = "Ya evaluado";
         btn.className = "btn btn-secondary";
         for (let i = 1; i <= 6; i++) {
           const r = form.querySelector(`input[name="q${i}"][value="${existing['q' + i]}"]`);
@@ -940,36 +521,23 @@
 
     function saveEvaluation() {
       if (!selectedPeerId || !currentStudent) return;
-
       const form = document.getElementById('eval-form');
       const formData = new FormData(form);
 
-      const q1 = parseInt(formData.get('q1'));
-      const q2 = parseInt(formData.get('q2'));
-      const q3 = parseInt(formData.get('q3'));
-      const q4 = parseInt(formData.get('q4'));
-      const q5 = parseInt(formData.get('q5'));
-      const q6 = parseInt(formData.get('q6'));
+      const q1 = parseInt(formData.get('q1')), q2 = parseInt(formData.get('q2')), q3 = parseInt(formData.get('q3')),
+            q4 = parseInt(formData.get('q4')), q5 = parseInt(formData.get('q5')), q6 = parseInt(formData.get('q6'));
 
-      if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) {
-        return alert('Por favor, puntúa las 6 preguntas de 1 a 5 antes de guardar.');
-      }
+      if (!q1 || !q2 || !q3 || !q4 || !q5 || !q6) return alert('Puntúa las 6 preguntas.');
 
-      evaluations.push({
-        evaluatorId: currentStudent.id,
-        targetId: selectedPeerId,
-        q1, q2, q3, q4, q5, q6
-      });
-
-      saveData();
-      alert('¡Valoración guardada correctamente!');
+      evaluations.push({ evaluatorId: currentStudent.id, targetId: selectedPeerId, q1, q2, q3, q4, q5, q6 });
+      setStored('ge_evaluations', evaluations);
+      alert('¡Valoración guardada!');
       selectPeer(selectedPeerId);
     }
 
     function openTeacherModal() {
       document.getElementById('modal-pass').classList.remove('hidden');
       document.getElementById('pass-input').value = '';
-      document.getElementById('pass-input').focus();
     }
 
     function closeTeacherModal() {
@@ -977,8 +545,7 @@
     }
 
     function loginTeacher() {
-      const pass = document.getElementById('pass-input').value;
-      if (pass === TEACHER_PASS) {
+      if (document.getElementById('pass-input').value === TEACHER_PASS) {
         closeTeacherModal();
         showTeacherDashboard();
       } else {
@@ -995,70 +562,56 @@
       checkAppState();
     }
 
-    // TOGGLE VOTING GLOBAL STATE
     function toggleVoting(isOpen) {
       settings.votingOpen = isOpen;
       settings.activePresenterId = null;
-      saveData();
+      setStored('ge_settings', settings);
       renderTeacherData();
+      alert(`Votaciones ${isOpen ? 'ABIERTAS' : 'CERRADAS'}`);
     }
 
-    // SET PRESENTER ONLY STATE
     function setPresenterOnly() {
       const val = document.getElementById('select-presenter').value;
-      if (!val) {
-        return alert('Selecciona un expositor de la lista desplegable.');
-      }
       settings.votingOpen = true;
-      settings.activePresenterId = parseInt(val);
-      saveData();
+      settings.activePresenterId = val ? parseInt(val) : null;
+      setStored('ge_settings', settings);
       renderTeacherData();
+      alert(val ? 'Votación abierta solo para el expositor actual.' : 'Votaciones abiertas para todos.');
     }
 
     function getStats() {
       return students.map(s => {
         const list = evaluations.filter(e => e.targetId === s.id);
         const count = list.length;
+        if (count === 0) return { ...s, voteCount: 0, avgTotal: 0 };
 
-        if (count === 0) return { ...s, voteCount: 0, avgTotal: 0, q1: 0, q2: 0, q3: 0, q4: 0, q5: 0, q6: 0 };
-
-        const q1 = list.reduce((a, b) => a + b.q1, 0) / count;
-        const q2 = list.reduce((a, b) => a + b.q2, 0) / count;
-        const q3 = list.reduce((a, b) => a + b.q3, 0) / count;
-        const q4 = list.reduce((a, b) => a + b.q4, 0) / count;
-        const q5 = list.reduce((a, b) => a + b.q5, 0) / count;
-        const q6 = list.reduce((a, b) => a + b.q6, 0) / count;
-        const avgTotal = (q1 + q2 + q3 + q4 + q5 + q6) / 6;
-
-        return { ...s, voteCount: count, avgTotal, q1, q2, q3, q4, q5, q6 };
+        const sum = list.reduce((a, b) => a + b.q1 + b.q2 + b.q3 + b.q4 + b.q5 + b.q6, 0);
+        return { ...s, voteCount: count, avgTotal: sum / (count * 6) };
       }).sort((a, b) => b.avgTotal - a.avgTotal);
     }
 
     function renderTeacherData() {
-      // 1. UPDATE PROMINENT TEACHER STATUS BANNER
-      const banner = document.getElementById('teacher-status-banner');
+      const indicator = document.getElementById('teacher-status-indicator');
       if (!settings.votingOpen) {
-        banner.className = 'status-banner-large status-banner-closed';
-        banner.innerHTML = '🔴 VOTACIONES CERRADAS';
+        indicator.textContent = "🔴 ESTADO: VOTACIONES CERRADAS";
+        indicator.className = "status-banner status-closed";
       } else if (settings.activePresenterId) {
-        const activePresenter = students.find(s => s.id == settings.activePresenterId);
-        banner.className = 'status-banner-large status-banner-single';
-        banner.innerHTML = `🟡 VOTACIÓN ABIERTA SOLO PARA: Nº ${activePresenter ? activePresenter.id + ' - ' + activePresenter.name : 'Expositor'}`;
+        const p = students.find(s => s.id == settings.activePresenterId);
+        indicator.textContent = `🟡 VOTACIÓN SOLO PARA: ${p ? p.name : ''}`;
+        indicator.className = "status-banner status-open";
       } else {
-        banner.className = 'status-banner-large status-banner-open';
-        banner.innerHTML = '🟢 VOTACIONES ABIERTAS (TODOS LOS ALUMNOS)';
+        indicator.textContent = "🟢 ESTADO: VOTACIONES ABIERTAS (TODOS)";
+        indicator.className = "status-banner status-open";
       }
 
       const stats = getStats();
-
-      // 2. RENDER PODIUM
       const podium = document.getElementById('podium-box');
       podium.innerHTML = '';
       
       const top3 = [
-        { rank: '2º Puesto 🥈', data: stats[1], class: 'podium-2' },
+        { rank: '2º Puesto', data: stats[1], class: 'podium-2' },
         { rank: '🥇 1º Puesto', data: stats[0], class: 'podium-1' },
-        { rank: '3º Puesto 🥉', data: stats[2], class: 'podium-3' }
+        { rank: '3º Puesto', data: stats[2], class: 'podium-3' }
       ];
 
       top3.forEach(p => {
@@ -1066,33 +619,24 @@
         const div = document.createElement('div');
         div.className = `podium-card ${p.class}`;
         div.innerHTML = `
-          <strong style="color:var(--accent-gold); font-size:0.85rem;">${p.rank}</strong>
-          <div style="font-weight:bold; margin:8px 0; font-size: 0.95rem;">Nº ${p.data.id} - ${p.data.name}</div>
-          <div style="font-size:0.78rem; color:var(--text-muted); font-style:italic;">${p.data.idea || 'Sin idea registrada'}</div>
-          <div style="font-size:2rem; font-weight:900; color:var(--accent-gold); margin-top:10px;">${p.data.avgTotal.toFixed(2)}</div>
+          <strong>${p.rank}</strong>
+          <div style="font-weight:bold; margin:4px 0;">${p.data.name}</div>
+          <div style="font-size:1.2rem; font-weight:900; color:var(--accent);">${p.data.avgTotal.toFixed(2)}</div>
         `;
         podium.appendChild(div);
       });
 
-      // 3. RENDER FULL RANKING TABLE
       const tbody = document.getElementById('ranking-body');
       tbody.innerHTML = '';
-
       stats.forEach((st, idx) => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
           <td><strong>${idx + 1}º</strong></td>
           <td>Nº ${st.id}</td>
-          <td><strong>${st.name}</strong></td>
-          <td><em>${st.idea || '-'}</em></td>
+          <td>${st.name}</td>
+          <td>${st.idea || '-'}</td>
           <td>${st.voteCount}</td>
-          <td><strong style="color:var(--accent-gold); font-size:1.05rem;">${st.avgTotal.toFixed(2)}</strong></td>
-          <td>${st.q1.toFixed(1)}</td>
-          <td>${st.q2.toFixed(1)}</td>
-          <td>${st.q3.toFixed(1)}</td>
-          <td>${st.q4.toFixed(1)}</td>
-          <td>${st.q5.toFixed(1)}</td>
-          <td>${st.q6.toFixed(1)}</td>
+          <td><strong style="color:var(--accent);">${st.avgTotal.toFixed(2)}</strong></td>
         `;
         tbody.appendChild(tr);
       });
@@ -1100,32 +644,20 @@
 
     function copyPodium() {
       const stats = getStats();
-      if (stats.length < 3) return alert('Se requieren más valoraciones.');
-
-      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º Puesto: Nº ${stats[0].id} - ${stats[0].name} (${stats[0].idea || 'Sin idea'}) - Nota: ${stats[0].avgTotal.toFixed(2)}\n🥈 2º Puesto: Nº ${stats[1].id} - ${stats[1].name} (${stats[1].idea || 'Sin idea'}) - Nota: ${stats[1].avgTotal.toFixed(2)}\n🥉 3º Puesto: Nº ${stats[2].id} - ${stats[2].name} (${stats[2].idea || 'Sin idea'}) - Nota: ${stats[2].avgTotal.toFixed(2)}`;
-
-      const dummy = document.createElement('textarea');
-      document.body.appendChild(dummy);
-      dummy.value = text;
-      dummy.select();
-      document.execCommand('copy');
-      document.body.removeChild(dummy);
-
-      alert('¡Podio copiado al portapapeles!');
+      if (stats.length < 3) return alert('Insuficientes datos.');
+      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º: ${stats[0].name} - ${stats[0].avgTotal.toFixed(2)}\n🥈 2º: ${stats[1].name} - ${stats[1].avgTotal.toFixed(2)}\n🥉 3º: ${stats[2].name} - ${stats[2].avgTotal.toFixed(2)}`;
+      navigator.clipboard.writeText(text).then(() => alert('Podio copiado para publicar en el Aula Virtual.'));
     }
 
     function exportCSV() {
       const stats = getStats();
-      let csv = 'Posicion,NumExposicion,Alumno,Idea,Votos,MediaTotal,Q1,Q2,Q3,Q4,Q5,Q6\n';
-
+      let csv = 'Posicion,Num,Alumno,Idea,Votos,MediaTotal\n';
       stats.forEach((st, idx) => {
-        csv += `${idx + 1},${st.id},"${st.name}","${st.idea || ''}",${st.voteCount},${st.avgTotal.toFixed(2)},${st.q1.toFixed(2)},${st.q2.toFixed(2)},${st.q3.toFixed(2)},${st.q4.toFixed(2)},${st.q5.toFixed(2)},${st.q6.toFixed(2)}\n`;
+        csv += `${idx + 1},${st.id},"${st.name}","${st.idea || ''}",${st.voteCount},${st.avgTotal.toFixed(2)}\n`;
       });
-
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
       const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'valoraciones_ideas_negocio_2026.csv';
+      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+      a.download = 'valoraciones_2026.csv';
       a.click();
     }
   </script>
