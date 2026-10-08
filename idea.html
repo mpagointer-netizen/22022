@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Valoración Idea de Negocio 2026 - Prof. Luis Sánchez Cañizares</title>
+  <title>VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026</title>
+  
   <style>
     :root {
       --bg-dark: #0f172a;
@@ -17,6 +18,7 @@
       --text-muted: #94a3b8;
       --status-green: #10b981;
       --status-red: #ef4444;
+      --status-yellow: #f59e0b;
       --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
     }
 
@@ -49,7 +51,7 @@
 
     .header-title h1 {
       color: var(--accent-gold);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 800;
       letter-spacing: 0.5px;
       text-transform: uppercase;
@@ -172,6 +174,41 @@
     select:focus, input:focus {
       outline: none;
       border-color: var(--accent-gold);
+    }
+
+    /* Teacher Live Status Indicator Banner */
+    .status-banner-large {
+      padding: 16px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .status-banner-closed {
+      background: rgba(239, 68, 68, 0.2);
+      border: 2px solid var(--status-red);
+      color: #f87171;
+    }
+
+    .status-banner-open {
+      background: rgba(16, 185, 129, 0.2);
+      border: 2px solid var(--status-green);
+      color: #34d399;
+    }
+
+    .status-banner-single {
+      background: rgba(245, 158, 11, 0.2);
+      border: 2px solid var(--accent-gold);
+      color: #fbbf24;
     }
 
     .eval-grid {
@@ -375,8 +412,8 @@
 
   <header>
     <div class="header-title">
-      <h1>VALORACIÓN IDEA DE NEGOCIO 2026</h1>
-      <p>Gestión Económica y Financiera — Prof. Luis Sánchez Cañizares</p>
+      <h1>VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026</h1>
+      <p>Profesor Luis Sánchez Cañizares</p>
     </div>
     <div class="user-info">
       <div id="user-badge" class="badge-user hidden">
@@ -389,10 +426,11 @@
   </header>
 
   <main>
+    <!-- View 1: Student Selection Login -->
     <div id="view-login" class="card" style="max-width: 480px; margin: 30px auto;">
       <h2 style="margin-bottom: 6px; text-align: center;">Identificación de Alumno</h2>
       <p style="color: var(--text-muted); font-size: 0.85rem; text-align: center; margin-bottom: 22px;">
-        Selecciona tu nombre en la lista para ingresar a evaluar.
+        Selecciona tu nombre en la lista para acceder.
       </p>
 
       <label for="select-student">Tu Nombre:</label>
@@ -402,25 +440,26 @@
 
       <div id="box-idea" class="hidden">
         <label for="input-idea">Nombre de tu Idea de Negocio:</label>
-        <input type="text" id="input-idea" placeholder="Ej: Plataforma de Gestión de Residuos">
+        <input type="text" id="input-idea" placeholder="Ej: Servicio de Consultoría Financiera Sostenible">
         <p style="color: var(--accent-gold); font-size: 0.78rem; margin-top: -12px; margin-bottom: 16px;">
-          ℹ️ Es tu primera vez ingresando. Registra el nombre de tu proyecto.
+          ℹ️ Registra el título de tu proyecto para que tus compañeros puedan evaluarlo.
         </p>
       </div>
 
       <button onclick="loginStudent()" class="btn" style="width: 100%;">Ingresar al Sistema</button>
     </div>
 
+    <!-- View 2: Voting Closed Screen -->
     <div id="view-closed" class="card hidden" style="max-width: 520px; margin: 30px auto; text-align: center; padding: 36px 24px;">
       <div style="font-size: 3.5rem; margin-bottom: 12px;">🔒</div>
-      <h2 style="font-size: 1.4rem; margin-bottom: 10px;">Votaciones Cerradas</h2>
+      <h2 style="font-size: 1.4rem; margin-bottom: 10px; color: var(--status-red);">Votaciones Cerradas</h2>
       <p style="color: var(--text-muted); font-size: 0.92rem; line-height: 1.5; margin-bottom: 24px;">
-        El profesor <strong>Luis Sánchez Cañizares</strong> aún no ha abierto el turno de votación.<br>
-        Presta atención a la exposición de tu compañero/a.
+        El profesor <strong>Luis Sánchez Cañizares</strong> no ha abierto la votación en este momento.<br>
+        Por favor, atiende a la presentación en curso.
       </p>
 
       <button onclick="checkAppState()" class="btn btn-secondary">
-        🔄 Comprobar si se han abierto
+        🔄 Comprobar Estado de Votación
       </button>
 
       <div style="margin-top: 20px;">
@@ -430,14 +469,20 @@
       </div>
     </div>
 
+    <!-- View 3: Peer Evaluation View -->
     <div id="view-eval" class="hidden">
       <div class="card" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; margin-bottom: 16px;">
         <span style="font-weight: 700; color: var(--status-green); font-size: 0.9rem;" id="banner-status">
           🟢 Votaciones Abiertas
         </span>
-        <button onclick="logoutStudent()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 14px;">
-          Cerrar Sesión
-        </button>
+        <div style="display: flex; gap: 10px;">
+          <button onclick="checkAppState()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 12px;">
+            🔄 Actualizar
+          </button>
+          <button onclick="logoutStudent()" class="btn btn-secondary" style="font-size: 0.8rem; padding: 6px 14px;">
+            Cerrar Sesión
+          </button>
+        </div>
       </div>
 
       <div class="eval-grid">
@@ -539,11 +584,12 @@
       </div>
     </div>
 
+    <!-- View 4: Teacher Dashboard View -->
     <div id="view-teacher" class="hidden">
       <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
         <div>
-          <h2 style="font-size: 1.25rem;">Panel Docente</h2>
-          <p style="color: var(--text-muted); font-size: 0.85rem;">Prof. Luis Sánchez Cañizares</p>
+          <h2 style="font-size: 1.25rem;">Panel Docente de Gestión</h2>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Profesor Luis Sánchez Cañizares</p>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap;">
           <button onclick="copyPodium()" class="btn btn-secondary" style="font-size: 0.85rem;">
@@ -553,31 +599,44 @@
             📊 Exportar Excel/CSV
           </button>
           <button onclick="closeTeacherView()" class="btn btn-danger" style="font-size: 0.85rem;">
-            Salir Docente
+            Salir Panel
           </button>
         </div>
       </div>
 
-      <!-- Controls Panel -->
+      <!-- Controls & Status Panel -->
       <div class="card" style="border-color: var(--accent-gold);">
         <h3 style="font-size: 0.95rem; margin-bottom: 14px; color: var(--accent-gold);">
-          ⚙️ Control de Votaciones en Clase
+          ⚙️ Control de Votaciones en Directo
         </h3>
+
+        <!-- Prominent Teacher Voting Status Indicator Badge -->
+        <div id="teacher-status-banner" class="status-banner-large status-banner-closed">
+          🔴 VOTACIONES CERRADAS
+        </div>
+
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; align-items: center;">
           <div>
-            <label>Estado Global:</label>
+            <label>Acciones Globales:</label>
             <div style="display: flex; gap: 10px;">
-              <button onclick="toggleVoting(true)" class="btn btn-success" style="flex: 1;">Abrir Todas</button>
-              <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex: 1;">Cerrar Votación</button>
+              <button onclick="toggleVoting(true)" class="btn btn-success" style="flex: 1;">
+                🟢 Abrir Votación General
+              </button>
+              <button onclick="toggleVoting(false)" class="btn btn-danger" style="flex: 1;">
+                🔴 Cerrar Votación
+              </button>
             </div>
           </div>
+
           <div>
             <label for="select-presenter">Habilitar SOLO al expositor actual:</label>
             <div style="display: flex; gap: 8px;">
               <select id="select-presenter" style="margin-bottom: 0;">
                 <!-- Populated dynamically -->
               </select>
-              <button onclick="setPresenterOnly()" class="btn">Activar</button>
+              <button onclick="setPresenterOnly()" class="btn btn-secondary" style="background: var(--accent-gold); color: #000;">
+                🟡 Activar Solo
+              </button>
             </div>
           </div>
         </div>
@@ -615,10 +674,11 @@
     </div>
   </main>
 
+  <!-- Teacher Password Modal -->
   <div id="modal-pass" class="modal-overlay hidden">
     <div class="modal-box">
       <h3 style="margin-bottom: 6px; text-align: center;">Acceso Docente</h3>
-      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Introduzca su clave de acceso:</p>
+      <p style="color: var(--text-muted); font-size: 0.8rem; text-align: center; margin-bottom: 16px;">Introduzca su contraseña de profesor:</p>
       <input type="password" id="pass-input" placeholder="••••••••" onkeyup="if(event.key==='Enter') loginTeacher()">
       <div style="display: flex; gap: 10px;">
         <button onclick="closeTeacherModal()" class="btn btn-secondary" style="flex: 1;">Cancelar</button>
@@ -628,7 +688,7 @@
   </div>
 
   <script>
-    // 29 PRELOADED STUDENTS
+    // PRELOADED LIST OF 29 STUDENTS
     const initialStudents = [
       { id: 1, name: "TAGMOUTI ABDOUNE ASSYA", idea: "" },
       { id: 2, name: "PERÁN SÁEZ ANDRÉS", idea: "" },
@@ -661,30 +721,31 @@
       { id: 29, name: "ALUMNO/A NUEVA INCORPORACIÓN", idea: "" }
     ];
 
+    // ROBUST STORAGE HELPER WITH GOOGLE SITES IFRAME FALLBACK
+    const Storage = {
+      get: function(key) {
+        try {
+          const item = localStorage.getItem(key);
+          return item ? JSON.parse(item) : null;
+        } catch (e) {
+          console.warn('Storage read error (likely iframe sandbox):', e);
+          return window['mem_' + key] || null;
+        }
+      },
+      set: function(key, val) {
+        try {
+          localStorage.setItem(key, JSON.stringify(val));
+        } catch (e) {
+          console.warn('Storage write error (likely iframe sandbox):', e);
+        }
+        window['mem_' + key] = val;
+      }
+    };
+
     // STATE INITIALIZATION
-    let students = [];
-    try {
-      const savedStudents = localStorage.getItem('ge_students_2026');
-      students = savedStudents ? JSON.parse(savedStudents) : initialStudents;
-    } catch (e) {
-      students = initialStudents;
-    }
-
-    let evaluations = [];
-    try {
-      const savedEvals = localStorage.getItem('ge_evaluations_2026');
-      evaluations = savedEvals ? JSON.parse(savedEvals) : [];
-    } catch (e) {
-      evaluations = [];
-    }
-
-    let settings = { votingOpen: false, activePresenterId: null };
-    try {
-      const savedSettings = localStorage.getItem('ge_settings_2026');
-      if (savedSettings) settings = JSON.parse(savedSettings);
-    } catch (e) {
-      settings = { votingOpen: false, activePresenterId: null };
-    }
+    let students = Storage.get('ge_students_2026') || initialStudents;
+    let evaluations = Storage.get('ge_evaluations_2026') || [];
+    let settings = Storage.get('ge_settings_2026') || { votingOpen: false, activePresenterId: null };
 
     let currentStudent = null;
     let selectedPeerId = null;
@@ -694,12 +755,21 @@
       saveData();
       populateDropdowns();
       checkAppState();
+      
+      // Auto-refresh state every 3 seconds for students to sync smoothly with teacher actions in iframe
+      setInterval(() => {
+        const freshSettings = Storage.get('ge_settings_2026');
+        if (freshSettings && JSON.stringify(freshSettings) !== JSON.stringify(settings)) {
+          settings = freshSettings;
+          checkAppState();
+        }
+      }, 3000);
     };
 
     function saveData() {
-      localStorage.setItem('ge_students_2026', JSON.stringify(students));
-      localStorage.setItem('ge_evaluations_2026', JSON.stringify(evaluations));
-      localStorage.setItem('ge_settings_2026', JSON.stringify(settings));
+      Storage.set('ge_students_2026', students);
+      Storage.set('ge_evaluations_2026', evaluations);
+      Storage.set('ge_settings_2026', settings);
     }
 
     function populateDropdowns() {
@@ -707,7 +777,7 @@
       const selectPresenter = document.getElementById('select-presenter');
 
       selectStudent.innerHTML = '<option value="">-- Selecciona tu nombre --</option>';
-      selectPresenter.innerHTML = '<option value="">-- Todos los alumnos --</option>';
+      selectPresenter.innerHTML = '<option value="">-- Ninguno (Todos cerrados) --</option>';
 
       students.forEach(s => {
         const opt1 = document.createElement('option');
@@ -736,6 +806,10 @@
     }
 
     function checkAppState() {
+      // Reload fresh settings
+      const freshSettings = Storage.get('ge_settings_2026');
+      if (freshSettings) settings = freshSettings;
+
       const loggedId = sessionStorage.getItem('logged_student_id_2026');
       if (loggedId) {
         currentStudent = students.find(s => s.id == loggedId);
@@ -809,7 +883,8 @@
         
         item.onclick = () => {
           if (isRestricted) {
-            return alert('El profesor ha habilitado la votación exclusivamente para el expositor actual.');
+            const presenter = students.find(s => s.id == settings.activePresenterId);
+            return alert(`El profesor ha habilitado la votación únicamente para el expositor actual: ${presenter ? presenter.name : 'Expositor'}`);
           }
           selectPeer(peer.id);
         };
@@ -920,19 +995,23 @@
       checkAppState();
     }
 
+    // TOGGLE VOTING GLOBAL STATE
     function toggleVoting(isOpen) {
       settings.votingOpen = isOpen;
+      settings.activePresenterId = null;
       saveData();
-      alert(`Votaciones ${isOpen ? 'ABIERTAS' : 'CERRADAS'}`);
       renderTeacherData();
     }
 
+    // SET PRESENTER ONLY STATE
     function setPresenterOnly() {
       const val = document.getElementById('select-presenter').value;
+      if (!val) {
+        return alert('Selecciona un expositor de la lista desplegable.');
+      }
       settings.votingOpen = true;
-      settings.activePresenterId = val ? parseInt(val) : null;
+      settings.activePresenterId = parseInt(val);
       saveData();
-      alert(val ? `Votación habilitada SOLO para el alumno de la posición elegida.` : 'Votación habilitada para todos los alumnos.');
       renderTeacherData();
     }
 
@@ -956,9 +1035,23 @@
     }
 
     function renderTeacherData() {
+      // 1. UPDATE PROMINENT TEACHER STATUS BANNER
+      const banner = document.getElementById('teacher-status-banner');
+      if (!settings.votingOpen) {
+        banner.className = 'status-banner-large status-banner-closed';
+        banner.innerHTML = '🔴 VOTACIONES CERRADAS';
+      } else if (settings.activePresenterId) {
+        const activePresenter = students.find(s => s.id == settings.activePresenterId);
+        banner.className = 'status-banner-large status-banner-single';
+        banner.innerHTML = `🟡 VOTACIÓN ABIERTA SOLO PARA: Nº ${activePresenter ? activePresenter.id + ' - ' + activePresenter.name : 'Expositor'}`;
+      } else {
+        banner.className = 'status-banner-large status-banner-open';
+        banner.innerHTML = '🟢 VOTACIONES ABIERTAS (TODOS LOS ALUMNOS)';
+      }
+
       const stats = getStats();
 
-      // Podium
+      // 2. RENDER PODIUM
       const podium = document.getElementById('podium-box');
       podium.innerHTML = '';
       
@@ -975,13 +1068,13 @@
         div.innerHTML = `
           <strong style="color:var(--accent-gold); font-size:0.85rem;">${p.rank}</strong>
           <div style="font-weight:bold; margin:8px 0; font-size: 0.95rem;">Nº ${p.data.id} - ${p.data.name}</div>
-          <div style="font-size:0.78rem; color:var(--text-muted); italic;">${p.data.idea || 'Sin idea registrada'}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted); font-style:italic;">${p.data.idea || 'Sin idea registrada'}</div>
           <div style="font-size:2rem; font-weight:900; color:var(--accent-gold); margin-top:10px;">${p.data.avgTotal.toFixed(2)}</div>
         `;
         podium.appendChild(div);
       });
 
-      // Table
+      // 3. RENDER FULL RANKING TABLE
       const tbody = document.getElementById('ranking-body');
       tbody.innerHTML = '';
 
@@ -1009,7 +1102,7 @@
       const stats = getStats();
       if (stats.length < 3) return alert('Se requieren más valoraciones.');
 
-      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º Puesto: ${stats[0].name} (${stats[0].idea || 'Sin idea'}) - Nota: ${stats[0].avgTotal.toFixed(2)}\n🥈 2º Puesto: ${stats[1].name} (${stats[1].idea || 'Sin idea'}) - Nota: ${stats[1].avgTotal.toFixed(2)}\n🥉 3º Puesto: ${stats[2].name} (${stats[2].idea || 'Sin idea'}) - Nota: ${stats[2].avgTotal.toFixed(2)}`;
+      const text = `🏆 VALORACIÓN IDEA DE NEGOCIO DE GESTIÓN ECONÓMICA Y FINANCIERA 2026\nProf. Luis Sánchez Cañizares\n\n🥇 1º Puesto: Nº ${stats[0].id} - ${stats[0].name} (${stats[0].idea || 'Sin idea'}) - Nota: ${stats[0].avgTotal.toFixed(2)}\n🥈 2º Puesto: Nº ${stats[1].id} - ${stats[1].name} (${stats[1].idea || 'Sin idea'}) - Nota: ${stats[1].avgTotal.toFixed(2)}\n🥉 3º Puesto: Nº ${stats[2].id} - ${stats[2].name} (${stats[2].idea || 'Sin idea'}) - Nota: ${stats[2].avgTotal.toFixed(2)}`;
 
       const dummy = document.createElement('textarea');
       document.body.appendChild(dummy);
